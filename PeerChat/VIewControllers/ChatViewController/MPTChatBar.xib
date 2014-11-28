@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Zyy-wJ-HrU" customClass="MPTChatBar">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+            <items>
+                <barButtonItem style="plain" systemItem="camera" id="rRm-nX-qhL">
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="didSelectCameraButton:" destination="Zyy-wJ-HrU" id="Xt2-57-y13"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem style="plain" systemItem="flexibleSpace" id="WPp-Cy-gb5"/>
+                <barButtonItem style="plain" id="ON4-KE-e2b">
+                    <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Chat Message" minimumFontSize="17" id="upt-4Z-9h0">
+                        <rect key="frame" x="57" y="7" width="189" height="30"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
+                        <connections>
+                            <outlet property="delegate" destination="Zyy-wJ-HrU" id="DOD-vS-gZQ"/>
+                        </connections>
+                    </textField>
+                </barButtonItem>
+                <barButtonItem style="plain" systemItem="flexibleSpace" id="TgM-tz-UQB"/>
+                <barButtonItem enabled="NO" title="Send" width="42" id="4Hx-yY-7SF">
+                    <connections>
+                        <action selector="didSelectSendButton:" destination="Zyy-wJ-HrU" id="weC-rz-fjc"/>
+                    </connections>
+                </barButtonItem>
+            </items>
+            <connections>
+                <outlet property="cameraButton" destination="rRm-nX-qhL" id="Fw1-LU-u8a"/>
+                <outlet property="inputField" destination="upt-4Z-9h0" id="0AL-wA-cc4"/>
+                <outlet property="sendButton" destination="4Hx-yY-7SF" id="JKe-i5-3vc"/>
+            </connections>
+        </toolbar>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
