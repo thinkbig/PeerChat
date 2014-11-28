@@ -101,6 +101,11 @@ static NSString *peerAttachmentChatCellID = @"peerAttachmentChatCell";
     return size.height + 20;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = [UIColor clearColor];
+}
+
 
 #pragma mark - NSFetchedResultsControllerDelegate
 

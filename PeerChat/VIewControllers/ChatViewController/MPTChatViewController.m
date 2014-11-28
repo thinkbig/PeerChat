@@ -34,6 +34,9 @@
     self.dataSource.tableView = self.tableView;
     self.chatBar = [MPTChatBar chatBarWithNibName:@"MPTChatBar"];
     self.firstResponderField.inputAccessoryView = self.chatBar;
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chat_bg_default"]];
+    [tempImageView setFrame:self.tableView.frame];
+    self.tableView.backgroundView = tempImageView;
 
     __weak MPTChatViewController *weakSelf = self;
     self.chatBar.chatHandler = ^(NSString *message) {

@@ -243,6 +243,64 @@
                                     <outlet property="userLabel" destination="5wJ-7h-t52" id="Tf8-Cc-gI0"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="peerVoiceChatCell" rowHeight="60" id="Uym-if-lJ0" customClass="MPTChatCell">
+                                <rect key="frame" x="0.0" y="130" width="320" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uym-if-lJ0" id="F1M-dk-8NM">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8dg-6W-mTQ">
+                                            <rect key="frame" x="5" y="4" width="52" height="52"/>
+                                            <subviews>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRi-kD-tR1">
+                                                    <rect key="frame" x="1" y="1" width="50" height="50"/>
+                                                    <state key="normal" backgroundImage="chat_voice_others">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="8"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="didSelectPreviewButton:" destination="Uym-if-lJ0" eventType="touchUpInside" id="9ru-sp-Ysg"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.94117647059999998" green="0.61917584079999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="52" id="gha-iJ-I0t"/>
+                                                <constraint firstAttribute="height" constant="52" id="nuU-Uf-A7Z"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROe-wC-GJZ">
+                                            <rect key="frame" x="75" y="0.0" width="240" height="60"/>
+                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="13"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="8dg-6W-mTQ" firstAttribute="leading" secondItem="F1M-dk-8NM" secondAttribute="leading" constant="5" id="0MY-ON-iap"/>
+                                        <constraint firstAttribute="bottom" secondItem="ROe-wC-GJZ" secondAttribute="bottom" id="2VG-FD-We1"/>
+                                        <constraint firstItem="ROe-wC-GJZ" firstAttribute="leading" secondItem="8dg-6W-mTQ" secondAttribute="trailing" constant="18" id="DcW-WS-U0x"/>
+                                        <constraint firstItem="8dg-6W-mTQ" firstAttribute="top" secondItem="F1M-dk-8NM" secondAttribute="top" constant="4" id="NcT-UT-Y64"/>
+                                        <constraint firstAttribute="trailing" secondItem="ROe-wC-GJZ" secondAttribute="trailing" constant="5" id="PN6-Zq-xgy"/>
+                                        <constraint firstItem="ROe-wC-GJZ" firstAttribute="top" secondItem="F1M-dk-8NM" secondAttribute="top" id="rO2-7Q-8Xj"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="attachmentPreviewButton" destination="bRi-kD-tR1" id="Oa2-JW-aq1"/>
+                                    <outlet property="sizingView" destination="8dg-6W-mTQ" id="ddf-cX-O7l"/>
+                                    <outlet property="userLabel" destination="ROe-wC-GJZ" id="uX2-lO-vaN"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="userChatCell" id="LPG-8Z-nxe" customClass="MPTChatCell">
                                 <rect key="frame" x="0.0" y="220" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -332,6 +390,53 @@
                                 <connections>
                                     <outlet property="attachmentPreviewButton" destination="Ye4-9Q-54N" id="sbq-K8-0WA"/>
                                     <outlet property="sizingView" destination="W0D-f4-NFs" id="yPg-hF-uvz"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="userVoiceChatCell" rowHeight="60" id="F6l-Cg-QOb" customClass="MPTChatCell">
+                                <rect key="frame" x="0.0" y="264" width="320" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F6l-Cg-QOb" id="0S7-9n-vCM">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKE-J0-hNz">
+                                            <rect key="frame" x="263" y="7" width="52" height="52"/>
+                                            <subviews>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iNJ-4D-g31">
+                                                    <rect key="frame" x="1" y="1" width="50" height="50"/>
+                                                    <state key="normal" image="chat_voice_me">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="8"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="didSelectPreviewButton:" destination="F6l-Cg-QOb" eventType="touchUpInside" id="ldH-dK-uBj"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" red="7.4955896300000002e-05" green="0.56985101800000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="75" id="dU4-6w-HhN"/>
+                                                <constraint firstAttribute="height" constant="75" id="gyk-la-lge"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="fKE-J0-hNz" firstAttribute="top" secondItem="0S7-9n-vCM" secondAttribute="top" constant="7" id="tCG-d9-c1F"/>
+                                        <constraint firstAttribute="trailing" secondItem="fKE-J0-hNz" secondAttribute="trailing" constant="5" id="wwa-Co-LvP"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="attachmentPreviewButton" destination="iNJ-4D-g31" id="odg-oa-dVP"/>
+                                    <outlet property="sizingView" destination="fKE-J0-hNz" id="zMs-k1-1wr"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="systemChatCell" id="58D-lt-bcC" customClass="MPTChatCell">
@@ -433,6 +538,10 @@
             <point key="canvasLocation" x="1055" y="374"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="chat_voice_me" width="50" height="50"/>
+        <image name="chat_voice_others" width="50" height="50"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
