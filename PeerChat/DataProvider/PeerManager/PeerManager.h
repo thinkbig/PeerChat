@@ -20,4 +20,6 @@
 - (void) sendMessage:(NSString*)message toGroup:(NSString*)groupName;
 - (void) sendImage:(UIImage *)image  toGroup:(NSString*)groupName;
 
+- (NSArray *) getOutPeersByRoom:(NSString*)roomName;
+- (NSArray *) getInPeersByRoom:(NSString *)roomName;
 @end

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="a1t-ah-tQn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="a1t-ah-tQn">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -30,7 +29,7 @@
                         <viewControllerLayoutGuide type="bottom" id="cga-cJ-NgI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9HF-7U-IYv">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="twA-ki-sj8">
@@ -56,7 +55,38 @@
             </objects>
             <point key="canvasLocation" x="616" y="-278"/>
         </scene>
-        <!--Rooms-->
+        <!--Peer Stat View Controller - Peer Stat-->
+        <scene sceneID="pxj-Xn-Roh">
+            <objects>
+                <viewController storyboardIdentifier="PeerStatVC" id="hTn-8b-S6A" customClass="PeerStatViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oca-Vn-vqW"/>
+                        <viewControllerLayoutGuide type="bottom" id="GZS-4C-TpK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="umK-UN-JpI">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="182" translatesAutoresizingMaskIntoConstraints="NO" id="b27-L5-1uN">
+                                <rect key="frame" x="60" y="61" width="182" height="96"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Peer Stat" id="h3O-Dq-ORa"/>
+                    <connections>
+                        <outlet property="inPeersLabel" destination="b27-L5-1uN" id="IKb-fI-uIp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WJM-OP-GDd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1147" y="-278"/>
+        </scene>
+        <!--View Controller - Rooms-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
@@ -65,7 +95,7 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Drag down to create Room" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdI-ZI-6uG">
@@ -81,9 +111,10 @@
                                 <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RoomCellId" rowHeight="60" id="mrQ-Ny-QbF">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mrQ-Ny-QbF" id="vrY-aq-NB0">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -120,17 +151,17 @@
             </objects>
             <point key="canvasLocation" x="138" y="374"/>
         </scene>
-        <!--Chat Session-->
+        <!--Chat View Controller - Chat Session-->
         <scene sceneID="km4-il-P7e">
             <objects>
                 <tableViewController storyboardIdentifier="ChatVC" id="gWK-zm-7LY" customClass="MPTChatViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="GpA-6C-Mkr">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="peerChatCell" id="OS4-zM-akz" customClass="MPTChatCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OS4-zM-akz" id="Zx3-PV-t1I">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -186,7 +217,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="peerAttachmentChatCell" rowHeight="90" id="8aA-lP-HfM" customClass="MPTChatCell">
-                                <rect key="frame" x="0.0" y="130" width="320" height="90"/>
+                                <rect key="frame" x="0.0" y="66" width="320" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8aA-lP-HfM" id="J0I-xv-VOQ">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
@@ -244,14 +275,14 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="peerVoiceChatCell" rowHeight="60" id="Uym-if-lJ0" customClass="MPTChatCell">
-                                <rect key="frame" x="0.0" y="130" width="320" height="90"/>
+                                <rect key="frame" x="0.0" y="156" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uym-if-lJ0" id="F1M-dk-8NM">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8dg-6W-mTQ">
-                                            <rect key="frame" x="5" y="4" width="52" height="52"/>
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8dg-6W-mTQ">
+                                            <rect key="frame" x="5" y="0.5" width="52" height="52"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRi-kD-tR1">
                                                     <rect key="frame" x="1" y="1" width="50" height="50"/>
@@ -302,7 +333,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="userChatCell" id="LPG-8Z-nxe" customClass="MPTChatCell">
-                                <rect key="frame" x="0.0" y="220" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="216" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LPG-8Z-nxe" id="hNu-x9-Aws">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -346,7 +377,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="userAttachmentChatCell" rowHeight="90" id="a58-WO-p43" customClass="MPTChatCell">
-                                <rect key="frame" x="0.0" y="264" width="320" height="90"/>
+                                <rect key="frame" x="0.0" y="260" width="320" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a58-WO-p43" id="akW-Vt-NF9">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
@@ -393,14 +424,14 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="userVoiceChatCell" rowHeight="60" id="F6l-Cg-QOb" customClass="MPTChatCell">
-                                <rect key="frame" x="0.0" y="264" width="320" height="90"/>
+                                <rect key="frame" x="0.0" y="350" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F6l-Cg-QOb" id="0S7-9n-vCM">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKE-J0-hNz">
-                                            <rect key="frame" x="263" y="7" width="52" height="52"/>
+                                            <rect key="frame" x="263" y="1" width="52" height="52"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iNJ-4D-g31">
                                                     <rect key="frame" x="1" y="1" width="50" height="50"/>
@@ -440,7 +471,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="systemChatCell" id="58D-lt-bcC" customClass="MPTChatCell">
-                                <rect key="frame" x="0.0" y="354" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="410" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="58D-lt-bcC" id="3Fq-uq-dip">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -483,6 +514,7 @@
                         <outlet property="dataSource" destination="KAp-Nn-giC" id="hgL-LE-60A"/>
                         <outlet property="firstResponderField" destination="CQk-Gr-jhj" id="iB5-c8-7l5"/>
                         <segue destination="mwn-bG-dHY" kind="push" id="NUp-dN-DDW"/>
+                        <segue destination="hTn-8b-S6A" kind="push" id="wHM-lH-qSU"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3bh-Qc-SzK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -503,7 +535,7 @@
             </objects>
             <point key="canvasLocation" x="616" y="374"/>
         </scene>
-        <!--Image-->
+        <!--Image View Controller - Image-->
         <scene sceneID="9Ut-29-CaU">
             <objects>
                 <viewController storyboardIdentifier="ImageVC" id="mwn-bG-dHY" customClass="MPTImageViewController" sceneMemberID="viewController">
@@ -512,7 +544,7 @@
                         <viewControllerLayoutGuide type="bottom" id="eI5-AL-xbQ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jfu-4Q-lFN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b7t-cm-Yk8">
@@ -535,7 +567,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uPg-CE-4JO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1055" y="374"/>
+            <point key="canvasLocation" x="1153" y="374"/>
         </scene>
     </scenes>
     <resources>

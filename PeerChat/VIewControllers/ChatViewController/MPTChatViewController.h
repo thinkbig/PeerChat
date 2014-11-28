@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^CamerHandler)(void);
+
 @interface MPTChatViewController : UITableViewController
 
 @property (nonatomic, strong) NSString *        roomName;

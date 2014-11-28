@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9EBDC74F1A28A05900D84754 /* PeerStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBDC74E1A28A05900D84754 /* PeerStatViewController.m */; };
 		A318CEFB1A26B40000320E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A318CEFA1A26B40000320E8F /* main.m */; };
 		A318CEFE1A26B40000320E8F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A318CEFD1A26B40000320E8F /* AppDelegate.m */; };
 		A318CF011A26B40000320E8F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A318CF001A26B40000320E8F /* ViewController.m */; };
@@ -57,6 +58,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9EBDC74D1A28A05900D84754 /* PeerStatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerStatViewController.h; sourceTree = "<group>"; };
+		9EBDC74E1A28A05900D84754 /* PeerStatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerStatViewController.m; sourceTree = "<group>"; };
 		A318CEF51A26B40000320E8F /* PeerChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeerChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A318CEF91A26B40000320E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A318CEFA1A26B40000320E8F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -151,6 +154,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9EBDC74C1A28A04200D84754 /* PeerStat */ = {
+			isa = PBXGroup;
+			children = (
+				9EBDC74D1A28A05900D84754 /* PeerStatViewController.h */,
+				9EBDC74E1A28A05900D84754 /* PeerStatViewController.m */,
+			);
+			path = PeerStat;
+			sourceTree = "<group>";
+		};
 		A318CEEC1A26B40000320E8F = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +305,7 @@
 		A318CF411A2740A200320E8F /* ChatViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9EBDC74C1A28A04200D84754 /* PeerStat */,
 				A318CF421A2740A200320E8F /* ImageViewer */,
 				A318CF451A2740A200320E8F /* Models */,
 				A318CF4F1A2740A200320E8F /* MPTChatBar.h */,
@@ -526,6 +539,7 @@
 				A318CF771A27424500320E8F /* UIActionSheet+Blocks.m in Sources */,
 				A318CF5B1A2740A200320E8F /* MPTChatUser.m in Sources */,
 				A318CF5A1A2740A200320E8F /* MPTChatMessage.m in Sources */,
+				9EBDC74F1A28A05900D84754 /* PeerStatViewController.m in Sources */,
 				A318CF591A2740A200320E8F /* ChatModal.xcdatamodeld in Sources */,
 				A318CF601A2740A200320E8F /* MPTChatDataSource.m in Sources */,
 				A318CF261A26EEB800320E8F /* JTTableViewGestureRecognizer.m in Sources */,
@@ -607,6 +621,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Tao (U28SDSHPMC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -627,6 +642,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "60c3541e-1ac0-4fb7-85d2-1d33f09cd9e1";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -648,6 +664,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Qi Tao (U28SDSHPMC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -661,6 +678,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "60c3541e-1ac0-4fb7-85d2-1d33f09cd9e1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

@@ -13,6 +13,7 @@
 #import "MPTDataController.h"
 #import "PeerManager.h"
 #import "UserWrapper.h"
+#import "PeerStatViewController.h"
 
 #import "UIActionSheet+Blocks.h"
 
@@ -30,7 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.dataSource.tableView = self.tableView;
     self.chatBar = [MPTChatBar chatBarWithNibName:@"MPTChatBar"];
     self.firstResponderField.inputAccessoryView = self.chatBar;
@@ -42,7 +43,8 @@
     self.chatBar.chatHandler = ^(NSString *message) {
         [[PeerManager sharedInst] sendMessage:message toGroup:weakSelf.roomName];
     };
-
+    
+    //==========camer handler======
     self.chatBar.cameraHandler = ^{
         
         void(^selectImage)(BOOL) = ^(BOOL fromCamera) {
@@ -97,9 +99,18 @@
 }
 
 #pragma mark - Actions
-
 - (IBAction)didSelectClearButton:(id)sender {
-    [[MPTDataController sharedController] deleteAllChatMessagesInManagedObjectContext:nil];
+    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"Select" cancelButtonItem:[RIButtonItem itemWithLabel:@"Cancel" action:nil] destructiveButtonItem:nil otherButtonItems:
+                            [RIButtonItem itemWithLabel:@"Clear" action:^{
+        [[MPTDataController sharedController] deleteAllChatMessagesInManagedObjectContext:nil];
+    }], [RIButtonItem itemWithLabel:@"Show Peer Stat" action:^{
+        PeerStatViewController * peerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PeerStatVC"];
+        peerVC.inPeers = [[PeerManager sharedInst] getOutPeersByRoom:self.roomName];
+        [self.navigationController pushViewController:peerVC animated:YES];
+    }], nil];
+    [sheet showInView:[UIApplication sharedApplication].keyWindow];
+    
+//    [[MPTDataController sharedController] deleteAllChatMessagesInManagedObjectContext:nil];
 }
 
 

@@ -23,6 +23,7 @@
 @property (strong, nonatomic) MCPeerID *                        peerID;
 
 @property (strong, nonatomic) MCPeerID *                        adPeerID;
+
 @property (strong, nonatomic) MCSession *                       adSession;
 @property (strong, nonatomic) MCNearbyServiceAdvertiser *       advertiser;
 
@@ -39,4 +40,6 @@
 - (void) sendImage:(UIImage *)image;
 - (void) stop;
 
+- (NSArray *)  getOutPeers;
+- (NSArray *) getInPeers;
 @end

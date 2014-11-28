@@ -65,4 +65,12 @@ static PeerManager * _sharedInst = nil;
     [unit sendImage:image];
 }
 
+-(NSArray *) getOutPeersByRoom:(NSString*)roomName {
+    PeerUnit * unit = self.peerDict[roomName];
+    return [unit getOutPeers];
+}
+-(NSArray *) getInPeersByRoom:(NSString *)roomName{
+    PeerUnit * unit = self.peerDict[roomName];
+    return [unit getInPeers];
+}
 @end
