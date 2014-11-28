@@ -63,13 +63,10 @@
 
 #pragma mark - Actions
 
-- (IBAction)didSelectSendButton:(id)sender {
-    if (self.chatHandler) {
-        self.chatHandler([self.inputField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]);
-    }
+- (IBAction)holdRecordBtn:(id)sender {
+}
 
-    self.inputField.text = @"";
-    self.sendButton.enabled = NO;
+- (IBAction)didReleaseRecordBtn:(id)sender {
 }
 
 - (IBAction)didSelectCameraButton:(id)sender {
@@ -82,7 +79,11 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ([self isValidMessage]) {
-        [self didSelectSendButton:textField];
+        if (self.chatHandler) {
+            self.chatHandler([self.inputField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]);
+        }
+        
+        self.inputField.text = @"";
     }
 
     return NO;
@@ -91,7 +92,6 @@
 #pragma mark - Notifications
 
 - (void)textFieldTextDidChange:(NSNotification *)notification {
-    self.sendButton.enabled = [self isValidMessage];
 }
 
 #pragma mark - Memory Management
