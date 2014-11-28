@@ -37,7 +37,7 @@
 
     __weak MPTChatViewController *weakSelf = self;
     self.chatBar.chatHandler = ^(NSString *message) {
-        [[PeerManager sharedInst] sendMessage:message toGroup:weakSelf.serviceType];
+        [[PeerManager sharedInst] sendMessage:message toGroup:weakSelf.roomName];
     };
 
     self.chatBar.cameraHandler = ^{
@@ -65,10 +65,12 @@
     };
     
     self.dataSource.attachmentPreviewHandler = ^(NSString *path) {
-        [weakSelf performSegueWithIdentifier:SEGUE_IMAGE_PREVIEW sender:path];
+        MPTImageViewController * imgVC = [weakSelf.storyboard instantiateViewControllerWithIdentifier:@"ImageVC"];
+        imgVC.image = [UIImage imageWithContentsOfFile:path];
+        [weakSelf.navigationController pushViewController:imgVC animated:YES];
     };
     
-    [[PeerManager sharedInst] joinOrCreateRoom:self.serviceType withDisplayName:[[UserWrapper sharedInst] nameOfMine]];
+    [[PeerManager sharedInst] joinOrCreateRoom:self.roomName withDisplayName:[[UserWrapper sharedInst] nameOfMine]];
     
 }
 
@@ -85,16 +87,9 @@
     [self.chatBar resignFirstResponder];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:SEGUE_IMAGE_PREVIEW]) {
-        MPTImageViewController *imageVC = segue.destinationViewController;
-        imageVC.image = [UIImage imageWithContentsOfFile:sender];
-    }
-}
-
-- (void)setServiceType:(NSString *)serviceType
+- (void)setRoomName:(NSString *)serviceType
 {
-    _serviceType = serviceType;
+    _roomName = serviceType;
     self.title = serviceType;
 }
 
@@ -121,7 +116,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [self dismissViewControllerAnimated:YES completion:NULL];
 
-    [[PeerManager sharedInst] sendImage:info[UIImagePickerControllerEditedImage] toGroup:self.serviceType];
+    [[PeerManager sharedInst] sendImage:info[UIImagePickerControllerEditedImage] toGroup:self.roomName];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

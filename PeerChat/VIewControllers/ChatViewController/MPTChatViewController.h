@@ -10,6 +10,6 @@
 
 @interface MPTChatViewController : UITableViewController
 
-@property (nonatomic, strong) NSString *        serviceType;
+@property (nonatomic, strong) NSString *        roomName;
 
 @end

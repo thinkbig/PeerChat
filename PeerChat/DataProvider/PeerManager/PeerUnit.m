@@ -146,9 +146,11 @@
     
 }
 
-- (NSURL *)createFileURL {
-    NSString *fileName = [[NSUUID UUID] UUIDString];
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@.jpg", NSTemporaryDirectory(), fileName];
+- (NSURL *)createFileURL:(NSString*)fileName {
+    if (fileName.length == 0) {
+        fileName = [[[NSUUID UUID] UUIDString] stringByAppendingPathExtension:@"jpg"];
+    }
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@", NSTemporaryDirectory(), fileName];
     
     return [NSURL fileURLWithPath:filePath];
 }
@@ -214,7 +216,7 @@
         NSArray * subArr = self.brSession.connectedPeers;
         if (expPeer) {
             NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return [obj isEqual:expPeer];
+                return ![obj isEqual:expPeer];
             }];
             subArr = [subArr objectsAtIndexes:sendIdx];
         }
@@ -235,7 +237,7 @@
         NSArray * subArr = self.adSession.connectedPeers;
         if (expPeer) {
             NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return [obj isEqual:expPeer];
+                return ![obj isEqual:expPeer];
             }];
             subArr = [subArr objectsAtIndexes:sendIdx];
         }
@@ -259,8 +261,8 @@
 {
     //  Do all our work on a background thread
     dispatch_async(dispatch_queue_create("com.tradeshift.imageprocessing", NULL), ^{
-        NSURL *thumbnailURL = [self createFileURL];
-        NSURL *scaledURL = [self createFileURL];
+        NSURL *thumbnailURL = [self createFileURL:nil];
+        NSURL *scaledURL = [self createFileURL:nil];
         
         CGFloat scaleFactor = 0.33f;
         
@@ -291,7 +293,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self ingestMessage:nil attachmentURL:scaledURL thumbnailURL:thumbnailURL fromPeer:self.peerID];
-            FileUnit * unit = [[FileUnit alloc] initWithPath:scaledURL.path andLength:scaledImageData.length];
+            FileUnit * unit = [[FileUnit alloc] initWithPath:scaledURL.path];
             [self __realSendFile:unit exceptionPeer:nil];
         });
     });
@@ -304,14 +306,14 @@
     }
     [self.fileQueue addObject:unit];
     
-    NSURL * fileUrl = [NSURL URLWithString:unit.filePath];
+    NSURL * fileUrl = [NSURL fileURLWithPath:unit.filePath];
     NSString * fileName = unit.fileName;
     
     if (self.brSession.connectedPeers.count > 0) {
         NSArray * subArr = self.brSession.connectedPeers;
         if (expPeer) {
             NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return [obj isEqual:expPeer];
+                return ![obj isEqual:expPeer];
             }];
             subArr = [subArr objectsAtIndexes:sendIdx];
         }
@@ -331,7 +333,7 @@
         NSArray * subArr = self.adSession.connectedPeers;
         if (expPeer) {
             NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return [obj isEqual:expPeer];
+                return ![obj isEqual:expPeer];
             }];
             subArr = [subArr objectsAtIndexes:sendIdx];
         }
@@ -427,9 +429,11 @@
     if ([self.adSession.connectedPeers containsObject:peerID] || [self.brSession.connectedPeers containsObject:peerID]) {
         //[session disconnect];
     } else {
-        if (state == MCSessionStateNotConnected && ![peerID isEqual:self.adPeerID] && [peerID isEqual:self.brPeerID])
+        if (state == MCSessionStateNotConnected)
         {
-            [self.advertiser startAdvertisingPeer]; //  start advertising so the browser can find us again.
+            NSLog(@"retry reconect");
+            [self.advertiser startAdvertisingPeer];
+            [self.browser startBrowsingForPeers];
         }
     }
     NSString *message = [NSString stringWithFormat:@"%@ %@...", peerID.displayName, action];
@@ -470,7 +474,7 @@
     if (error) {
         NSLog(@"Error when receiving file! %@", error);
     } else {
-        dispatch_async(dispatch_queue_create("com.waynehartman.multipeertest.imagereception", NULL), ^{
+        dispatch_async(dispatch_queue_create("com.tradeshift.imagereception", NULL), ^{
             NSData *imageData = nil;
             NSData *thumbnailData = nil;
             
@@ -484,8 +488,8 @@
                 thumbnailData = UIImageJPEGRepresentation(thumbnail, 1.0f);
             }
             
-            NSURL *imageURL = [self createFileURL];
-            NSURL *thumbnailURL = [self createFileURL];
+            NSURL *imageURL = [self createFileURL:resourceName];
+            NSURL *thumbnailURL = [self createFileURL:nil];
             
             NSFileManager *fm = [NSFileManager defaultManager];
             [fm createFileAtPath:imageURL.path contents:imageData attributes:nil];
@@ -493,8 +497,9 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self ingestMessage:nil attachmentURL:imageURL thumbnailURL:thumbnailURL fromPeer:peerID];
-                FileUnit * unit = [[FileUnit alloc] initWithPath:imageURL.path andLength:imageData.length];
-                [self __realSendFile:unit exceptionPeer:nil];
+                FileUnit * unit = [[FileUnit alloc] initWithPath:imageURL.path];
+                unit.fileName = resourceName;
+                [self __realSendFile:unit exceptionPeer:peerID];
             });
         });
     }

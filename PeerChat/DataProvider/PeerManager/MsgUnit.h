@@ -24,8 +24,7 @@
 
 @property (nonatomic, strong) NSString *        filePath;
 @property (nonatomic, strong) NSString *        fileName;
-@property (nonatomic, strong) NSNumber *        fileLength;
 
-- (id) initWithPath:(NSString*)path andLength:(NSInteger)length;
+- (id) initWithPath:(NSString*)path;
 
 @end

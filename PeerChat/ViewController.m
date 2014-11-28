@@ -70,7 +70,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     MPTChatViewController * chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChatVC"];
-    chatVC.serviceType = self.rows[indexPath.row];
+    chatVC.roomName = self.rows[indexPath.row];
     [self.navigationController pushViewController:chatVC animated:YES];
 }
 

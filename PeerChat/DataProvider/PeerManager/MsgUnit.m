@@ -68,12 +68,11 @@
 
 @implementation FileUnit
 
-- (id) initWithPath:(NSString*)path andLength:(NSInteger)length
+- (id) initWithPath:(NSString*)path
 {
     self = [super init];
     if ( nil != self ) {
         self.filePath = path;
-        self.fileLength = @(length);
         self.fileName = [path lastPathComponent];
     }
     return self;
@@ -83,7 +82,7 @@
 {
     if ([object isKindOfClass:[FileUnit class]]) {
         FileUnit * anotherUnit = (FileUnit*)object;
-        if ([self.fileName isEqualToString:anotherUnit.fileName] && [self.fileLength isEqualToNumber:anotherUnit.fileLength]) {
+        if ([self.fileName isEqualToString:anotherUnit.fileName]) {
             return YES;
         }
     }

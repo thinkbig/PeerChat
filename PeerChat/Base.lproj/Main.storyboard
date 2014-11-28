@@ -364,7 +364,7 @@
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="KAp-Nn-giC" id="AQr-Fo-8o8"/>
-                            <outlet property="delegate" destination="gWK-zm-7LY" id="F33-jU-KJq"/>
+                            <outlet property="delegate" destination="KAp-Nn-giC" id="Buh-u8-z8R"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Chat Session" id="1Q4-S6-dIb">
@@ -377,6 +377,7 @@
                     <connections>
                         <outlet property="dataSource" destination="KAp-Nn-giC" id="hgL-LE-60A"/>
                         <outlet property="firstResponderField" destination="CQk-Gr-jhj" id="iB5-c8-7l5"/>
+                        <segue destination="mwn-bG-dHY" kind="push" id="NUp-dN-DDW"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3bh-Qc-SzK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -396,6 +397,40 @@
                 </textField>
             </objects>
             <point key="canvasLocation" x="616" y="374"/>
+        </scene>
+        <!--Image-->
+        <scene sceneID="9Ut-29-CaU">
+            <objects>
+                <viewController storyboardIdentifier="ImageVC" id="mwn-bG-dHY" customClass="MPTImageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Hpy-s8-UrS"/>
+                        <viewControllerLayoutGuide type="bottom" id="eI5-AL-xbQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jfu-4Q-lFN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="b7t-cm-Yk8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="b7t-cm-Yk8" firstAttribute="top" secondItem="Hpy-s8-UrS" secondAttribute="bottom" id="1dW-US-Mmp"/>
+                            <constraint firstAttribute="bottom" secondItem="b7t-cm-Yk8" secondAttribute="bottom" id="S1a-Cs-68j"/>
+                            <constraint firstAttribute="trailing" secondItem="b7t-cm-Yk8" secondAttribute="trailing" id="cik-W7-0uB"/>
+                            <constraint firstItem="b7t-cm-Yk8" firstAttribute="leading" secondItem="jfu-4Q-lFN" secondAttribute="leading" id="tjl-ET-kxi"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Image" id="Wwf-zM-B8Q"/>
+                    <connections>
+                        <outlet property="imageViewBig" destination="b7t-cm-Yk8" id="SoX-er-hBz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uPg-CE-4JO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1055" y="374"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

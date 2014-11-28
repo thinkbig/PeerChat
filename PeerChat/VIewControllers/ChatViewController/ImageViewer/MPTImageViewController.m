@@ -10,7 +10,7 @@
 
 @interface MPTImageViewController ()
 
-@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet UIImageView *imageViewBig;
 
 @end
 
@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.imageView.image = self.image;
+    self.imageViewBig.image = self.image;
 }
 
 @end
