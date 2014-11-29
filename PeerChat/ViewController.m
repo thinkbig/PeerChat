@@ -63,26 +63,15 @@
 //    [self.roomTable endUpdates];
 //    
 //    [self.roomTable performSelector:@selector(reloadVisibleRowsExceptIndexPath:) withObject:lastIndexPath afterDelay:JTTableViewRowAnimationDuration];
-    
-    [self.roomTable beginUpdates];
-    [self.roomTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-    [self.roomTable endUpdates];
  
-//    UITableViewCell * cell = [self.tableViewRecognizer.tableView cellForRowAtIndexPath:indexPath];
-//    NSString *roomName = cell.textLabel.text;
-//    
-////    [self.rows replaceObjectAtIndex:indexPath.row withObject:DONE_CELL];
-////    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-//    
-//
     __block ViewController * weekSelf = self;
-    self.alertView = [[STAlertView alloc] initWithTitle:@"modify room name" message:nil textFieldHint:@"asfasdfasd"
+    self.alertView = [[STAlertView alloc] initWithTitle:@"Input Room Name" message:nil textFieldHint:self.rows[indexPath.row]
       textFieldValue:nil  cancelButtonTitle:@"Cancel" otherButtonTitles:@"ok" cancelButtonBlock:nil
       otherButtonBlock:^(NSString *result){
-          [self.rows replaceObjectAtIndex:indexPath.row withObject:result];
-          [self.roomTable beginUpdates];
-          [self.roomTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-          [self.roomTable endUpdates];
+          [weekSelf.rows replaceObjectAtIndex:indexPath.row withObject:result];
+          [weekSelf.roomTable beginUpdates];
+          [weekSelf.roomTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+          [weekSelf.roomTable endUpdates];
         }];
     
 }
@@ -235,7 +224,7 @@
     else {
         cell.finishedHeight = NORMAL_CELL_FINISHING_HEIGHT;
         cell.imageView.image = nil;
-        cell.textLabel.text = newRoomName;
+        cell.textLabel.text = [newRoomName stringByAppendingString:@" (Swipt Right to Rename)"];
     }
 }
 
@@ -307,7 +296,7 @@
     } else if (state == JTTableViewCellEditingStateRight) {
         // An example to retain the cell at commiting at JTTableViewCellEditingStateRight
 //        [self.rows replaceObjectAtIndex:indexPath.row withObject:DONE_CELL];
-//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         rowToBeMovedToBottom = indexPath;
     } else {
         // JTTableViewCellEditingStateMiddle shouldn't really happen in

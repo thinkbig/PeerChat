@@ -323,7 +323,6 @@
 
 - (BOOL) __realSendFile:(FileUnit*)unit exceptionPeer:(MCPeerID*)expPeer
 {
-    unit.haveSend = YES;
     __block BOOL exist = NO;
     __block BOOL shouldReturn = NO;
     [self.fileQueue enumerateObjectsUsingBlock:^(FileUnit * obj, NSUInteger idx, BOOL *stop) {
@@ -339,6 +338,7 @@
     if (shouldReturn) {
         return NO;
     } else if (!exist) {
+        unit.haveSend = YES;
         [self.fileQueue addObject:unit];
     }
     
@@ -475,11 +475,11 @@
     if ([self isExistingPeer:peerID]) {
         //[session disconnect];
     } else {
-        if (state == MCSessionStateNotConnected)
+        if (state == MCSessionStateNotConnected && self.adSession.connectedPeers.count == 0 && self.brSession.connectedPeers.count == 0)
         {
             NSLog(@"retry reconect");
-            [self.advertiser startAdvertisingPeer];
-            [self.browser startBrowsingForPeers];
+            [self stop];
+            [self start];
         }
     }
     NSString *message = [NSString stringWithFormat:@"%@ %@...", peerID.displayName, action];
@@ -522,7 +522,6 @@
     } else {
         FileUnit * unit = [[FileUnit alloc] initWithPath:localURL.path];
         unit.fileName = resourceName;
-        unit.haveReceived = YES;
         __block BOOL exist = NO;
         __block BOOL shouldReturn = NO;
         [self.fileQueue enumerateObjectsUsingBlock:^(FileUnit * obj, NSUInteger idx, BOOL *stop) {
@@ -538,6 +537,7 @@
         if (shouldReturn) {
             return ;
         } else if (!exist) {
+            unit.haveReceived = YES;
             [self.fileQueue addObject:unit];
         }
         
