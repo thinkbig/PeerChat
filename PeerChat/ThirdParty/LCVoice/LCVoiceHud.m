@@ -16,7 +16,7 @@
 #define _DEVICE_HEIGHT ([UIScreen mainScreen].bounds.size.height-20.0f)
 #define _DEVICE_WIDTH  ([UIScreen mainScreen].bounds.size.width)
 
-#define _IMAGE_UNDER       [UIImage imageNamed:@"black_bg_ip5.png"]
+#define _IMAGE_UNDER       nil          //[UIImage imageNamed:@"black_bg_ip5.png"]
 #define _IMAGE_MIC_NORMAL  [UIImage imageNamed:@"mic_normal_358x358.png"]
 #define _IMAGE_MIC_TALKING [UIImage imageNamed:@"mic_talk_358x358.png"]
 #define _IMAGE_MIC_WAVE [UIImage imageNamed:@"wave70x117.png"]
@@ -261,6 +261,8 @@
     CGRect frame3 = CGRectMake(164/2-50/2, 164/2-93.5/2, 179, 179);
     CGRect frame4 = CGRectMake(0, 0, 35, 58.5);
 
+    CGPoint center = self.center;
+    center.y -= 110;
     
     UIImageView * backBlackImageView = [[UIImageView alloc] initWithFrame:frame1];
     backBlackImageView.image = _IMAGE_UNDER;
@@ -268,14 +270,14 @@
     
     UIImageView * micNormalImageView = [[UIImageView alloc] initWithImage:_IMAGE_MIC_NORMAL];
     micNormalImageView.frame = frame2;
-    micNormalImageView.center = self.center;
+    micNormalImageView.center = center;
     [self addSubview:micNormalImageView];
     
     
     _talkingImageView = [[UIImageView alloc] initWithFrame:frame3];
     _talkingImageView.image = _IMAGE_MIC_TALKING;
     [self addSubview:_talkingImageView];
-    _talkingImageView.center = self.center;
+    _talkingImageView.center = center;
     
     _dynamicProgress = [[LCPorgressImageView alloc] initWithFrame:frame4];
     _dynamicProgress.image = _IMAGE_MIC_WAVE;
@@ -285,7 +287,7 @@
     _dynamicProgress.progress = 0;
     _dynamicProgress.hasGrayscaleBackground = NO;
     _dynamicProgress.verticalProgress = YES;
-    _dynamicProgress.center = CGPointMake(self.center.x, self.center.y-13);
+    _dynamicProgress.center = CGPointMake(center.x, center.y-13);
 }
 
 #pragma mark - Custom Accessor

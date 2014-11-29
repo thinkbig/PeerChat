@@ -155,4 +155,12 @@
     }
 }
 
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    //[self.tabBar resignFirstResponder];
+}
+
 @end

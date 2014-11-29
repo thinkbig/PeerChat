@@ -37,6 +37,9 @@
     self.dataSource.tableView = self.tableView;
     self.chatBar = [MPTChatBar chatBarWithNibName:@"MPTChatBar"];
     self.firstResponderField.inputAccessoryView = self.chatBar;
+    self.dataSource.tabBar = self.chatBar;
+    
+    
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chat_bg_default"]];
     [tempImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView = tempImageView;
@@ -125,7 +128,6 @@
     }], nil];
     [sheet showInView:[UIApplication sharedApplication].keyWindow];
     
-//    [[MPTDataController sharedController] deleteAllChatMessagesInManagedObjectContext:nil];
 }
 
 
@@ -152,11 +154,5 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    //[self.chatBar resignFirstResponder];
-}
 
 @end

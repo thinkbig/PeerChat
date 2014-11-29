@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "MPTChatBar.h"
 
 static NSString *userChatCellID = @"userChatCell";
 static NSString *peerChatCellID = @"peerChatCell";
@@ -26,5 +27,6 @@ typedef void(^AttachmentPreviewHandler)(NSString *filePath, NSString *cellId);
 
 @property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, copy) AttachmentPreviewHandler attachmentPreviewHandler;
+@property (nonatomic, weak) MPTChatBar * tabBar;
 
 @end

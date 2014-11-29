@@ -99,12 +99,13 @@
 
 - (void) start
 {
-    [self searchingForExisting];
+    [self advertiseSelf];
     
     _sem = dispatch_semaphore_create(0);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_semaphore_wait(_sem, 5);
-        [self advertiseSelf];
+        dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC));
+        dispatch_semaphore_wait(_sem, timeout);
+        [self searchingForExisting];
     });
 }
 
@@ -135,21 +136,18 @@
 
 - (void) advertiseSelf
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.adSession disconnect];
-        [self.advertiser stopAdvertisingPeer];
-        
-        if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName]) {
-            self.adSession = [[MCSession alloc] initWithPeer:self.adPeerID];
-            self.adSession.delegate = self;
-            self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.adPeerID discoveryInfo:nil serviceType:self.serviceType];
-            self.advertiser.delegate = self;
-            [self.advertiser startAdvertisingPeer];
-        }
-        
-        [self ingestMessage:@"Waiting to be invited to a session..." attachmentURL:nil thumbnailURL:nil fromPeer:nil];
-    });
+    [self.adSession disconnect];
+    [self.advertiser stopAdvertisingPeer];
     
+    if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName]) {
+        self.adSession = [[MCSession alloc] initWithPeer:self.adPeerID];
+        self.adSession.delegate = self;
+        self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.adPeerID discoveryInfo:nil serviceType:self.serviceType];
+        self.advertiser.delegate = self;
+        [self.advertiser startAdvertisingPeer];
+    }
+    
+    [self ingestMessage:@"Waiting to be invited to a session..." attachmentURL:nil thumbnailURL:nil fromPeer:nil];
 }
 
 - (NSURL *)createFileURL:(NSString*)fileName {
@@ -325,10 +323,24 @@
 
 - (BOOL) __realSendFile:(FileUnit*)unit exceptionPeer:(MCPeerID*)expPeer
 {
-    if (nil == unit || [self.fileQueue containsObject:unit]) {
+    unit.haveSend = YES;
+    __block BOOL exist = NO;
+    __block BOOL shouldReturn = NO;
+    [self.fileQueue enumerateObjectsUsingBlock:^(FileUnit * obj, NSUInteger idx, BOOL *stop) {
+        if ([unit isEqual:obj]) {
+            if (obj.haveSend) {
+                shouldReturn = YES;
+            }
+            exist = YES;
+            obj.haveSend = YES;
+            *stop = YES;
+        }
+    }];
+    if (shouldReturn) {
         return NO;
+    } else if (!exist) {
+        [self.fileQueue addObject:unit];
     }
-    [self.fileQueue addObject:unit];
     
     NSURL * fileUrl = [NSURL fileURLWithPath:unit.filePath];
     NSString * fileName = unit.fileName;
@@ -394,6 +406,11 @@
     
     invitationHandler(YES, self.adSession);    // In most cases you might want to give users an option to connect or not.
     //[self.advertiser stopAdvertisingPeer];  //  Once invited, stop advertising
+    
+    if (_sem) {
+        dispatch_semaphore_signal(_sem);
+        _sem = nil;
+    }
 }
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error {
@@ -434,7 +451,7 @@
 
 // Remote peer changed state
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
-    NSLog(@"Peer did change state: %li", state);
+    NSLog(@"Peer did change state: %i", state);
     NSString *action = nil;
     switch (state) {
         case MCSessionStateConnected: {
@@ -503,11 +520,30 @@
     if (error) {
         NSLog(@"Error when receiving file! %@", error);
     } else {
+        FileUnit * unit = [[FileUnit alloc] initWithPath:localURL.path];
+        unit.fileName = resourceName;
+        unit.haveReceived = YES;
+        __block BOOL exist = NO;
+        __block BOOL shouldReturn = NO;
+        [self.fileQueue enumerateObjectsUsingBlock:^(FileUnit * obj, NSUInteger idx, BOOL *stop) {
+            if ([unit isEqual:obj]) {
+                if ((obj.haveReceived || obj.haveSend)) {
+                    shouldReturn = YES;
+                }
+                exist = YES;
+                obj.haveReceived = YES;
+                *stop = YES;
+            }
+        }];
+        if (shouldReturn) {
+            return ;
+        } else if (!exist) {
+            [self.fileQueue addObject:unit];
+        }
+        
         NSString * extention = [resourceName pathExtension];
         if ([extention isEqualToString:@"caf"]) {
             [self ingestMessage:nil attachmentURL:localURL thumbnailURL:nil fromPeer:peerID];
-            FileUnit * unit = [[FileUnit alloc] initWithPath:localURL.path];
-            unit.fileName = resourceName;
             [self __realSendFile:unit exceptionPeer:peerID];
         } else {
             dispatch_async(dispatch_queue_create("com.tradeshift.imagereception", NULL), ^{
@@ -533,7 +569,7 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self ingestMessage:nil attachmentURL:imageURL thumbnailURL:thumbnailURL fromPeer:peerID];
-                    FileUnit * unit = [[FileUnit alloc] initWithPath:imageURL.path];
+                    unit.filePath = imageURL.path;
                     unit.fileName = resourceName;
                     [self __realSendFile:unit exceptionPeer:peerID];
                 });
