@@ -31,6 +31,11 @@
 
 @implementation MPTChatViewController
 
+- (void)dealloc
+{
+    [[PeerManager sharedInst] leaveRoom:self.roomName];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -116,7 +121,9 @@
     self.title = serviceType;
 }
 
+
 #pragma mark - Actions
+
 - (IBAction)didSelectClearButton:(id)sender {
     UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"Select" cancelButtonItem:[RIButtonItem itemWithLabel:@"Cancel" action:nil] destructiveButtonItem:nil otherButtonItems:
                             [RIButtonItem itemWithLabel:@"Clear" action:^{
