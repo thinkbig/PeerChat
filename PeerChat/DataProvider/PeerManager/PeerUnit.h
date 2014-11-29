@@ -40,6 +40,7 @@
 - (void) sendImage:(UIImage *)image;
 - (void) stop;
 
-- (NSArray *)  getOutPeers;
+- (NSArray *) getOutPeers;
 - (NSArray *) getInPeers;
+- (NSArray *) getSelfPeerName;
 @end

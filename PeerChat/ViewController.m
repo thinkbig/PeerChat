@@ -11,7 +11,7 @@
 #import "JTTableViewGestureRecognizer.h"
 #import "UIColor+JTGestureBasedTableViewHelper.h"
 #import "MPTChatViewController.h"
-
+#import "STAlertView.h"
 #define ADDING_CELL     @"Continue..."
 #define DONE_CELL       @"Done"
 #define DUMMY_CELL      @"Dummy"
@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSMutableArray *rows;
 @property (nonatomic, strong) JTTableViewGestureRecognizer *tableViewRecognizer;
 @property (nonatomic, strong) id grabbedObject;
+@property (nonatomic, strong) STAlertView *     alertView;
 
 - (void)moveRowToBottomForIndexPath:(NSIndexPath *)indexPath;
 
@@ -31,6 +32,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @implementation ViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -48,18 +50,41 @@
 }
 
 - (void)moveRowToBottomForIndexPath:(NSIndexPath *)indexPath {
+//    //@@@@@@@@@@@@@@@@@@
+//    [self.roomTable beginUpdates];
+//    
+//    id object = [self.rows objectAtIndex:indexPath.row];
+//    [self.rows removeObjectAtIndex:indexPath.row];
+//    [self.rows addObject:object];
+//    
+//    NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:[self.rows count] - 1 inSection:0];
+//    [self.roomTable moveRowAtIndexPath:indexPath toIndexPath:lastIndexPath];
+//    
+//    [self.roomTable endUpdates];
+//    
+//    [self.roomTable performSelector:@selector(reloadVisibleRowsExceptIndexPath:) withObject:lastIndexPath afterDelay:JTTableViewRowAnimationDuration];
+    
     [self.roomTable beginUpdates];
-    
-    id object = [self.rows objectAtIndex:indexPath.row];
-    [self.rows removeObjectAtIndex:indexPath.row];
-    [self.rows addObject:object];
-    
-    NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:[self.rows count] - 1 inSection:0];
-    [self.roomTable moveRowAtIndexPath:indexPath toIndexPath:lastIndexPath];
-    
+    [self.roomTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     [self.roomTable endUpdates];
+ 
+//    UITableViewCell * cell = [self.tableViewRecognizer.tableView cellForRowAtIndexPath:indexPath];
+//    NSString *roomName = cell.textLabel.text;
+//    
+////    [self.rows replaceObjectAtIndex:indexPath.row withObject:DONE_CELL];
+////    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+//    
+//
+    __block ViewController * weekSelf = self;
+    self.alertView = [[STAlertView alloc] initWithTitle:@"modify room name" message:nil textFieldHint:@"asfasdfasd"
+      textFieldValue:nil  cancelButtonTitle:@"Cancel" otherButtonTitles:@"ok" cancelButtonBlock:nil
+      otherButtonBlock:^(NSString *result){
+          [self.rows replaceObjectAtIndex:indexPath.row withObject:result];
+          [self.roomTable beginUpdates];
+          [self.roomTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+          [self.roomTable endUpdates];
+        }];
     
-    [self.roomTable performSelector:@selector(reloadVisibleRowsExceptIndexPath:) withObject:lastIndexPath afterDelay:JTTableViewRowAnimationDuration];
 }
 
 
@@ -281,8 +306,8 @@
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     } else if (state == JTTableViewCellEditingStateRight) {
         // An example to retain the cell at commiting at JTTableViewCellEditingStateRight
-        [self.rows replaceObjectAtIndex:indexPath.row withObject:DONE_CELL];
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+//        [self.rows replaceObjectAtIndex:indexPath.row withObject:DONE_CELL];
+//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         rowToBeMovedToBottom = indexPath;
     } else {
         // JTTableViewCellEditingStateMiddle shouldn't really happen in

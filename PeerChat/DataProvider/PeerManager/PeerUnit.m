@@ -508,7 +508,7 @@
 
 -(NSArray *)getOutPeers{
     NSMutableArray * peerNames = [NSMutableArray arrayWithCapacity:8];
-    NSArray * peers = [self.brSession.connectedPeers copy];
+    NSArray * peers = [self.adSession.connectedPeers copy];
     for (MCPeerID * peer in peers) {
         [peerNames addObject:peer.displayName];
     }
@@ -517,10 +517,13 @@
 
 -(NSArray *) getInPeers{
     NSMutableArray *peerNames = [NSMutableArray arrayWithCapacity:8];
-    NSArray *peers = [self.adSession.connectedPeers copy];
+    NSArray *peers = [self.brSession.connectedPeers copy];
     for(MCPeerID * peer in peers){
        [peerNames addObject:peer.displayName];
     }
     return peerNames;
+}
+- (NSArray *) getSelfPeerName{
+    return [NSArray arrayWithObjects: self.dispName,nil];
 }
 @end

@@ -22,4 +22,5 @@
 
 - (NSArray *) getOutPeersByRoom:(NSString*)roomName;
 - (NSArray *) getInPeersByRoom:(NSString *)roomName;
+- (NSArray *) getSelfPeerName:(NSString *)roomName;
 @end

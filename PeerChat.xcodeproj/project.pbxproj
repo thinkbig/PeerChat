@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9EBDC74F1A28A05900D84754 /* PeerStatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBDC74E1A28A05900D84754 /* PeerStatViewController.m */; };
+		9EBDC7571A28C85600D84754 /* STAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBDC7561A28C85600D84754 /* STAlertView.m */; };
 		A318CEFB1A26B40000320E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A318CEFA1A26B40000320E8F /* main.m */; };
 		A318CEFE1A26B40000320E8F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A318CEFD1A26B40000320E8F /* AppDelegate.m */; };
 		A318CF011A26B40000320E8F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A318CF001A26B40000320E8F /* ViewController.m */; };
@@ -60,6 +61,8 @@
 /* Begin PBXFileReference section */
 		9EBDC74D1A28A05900D84754 /* PeerStatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerStatViewController.h; sourceTree = "<group>"; };
 		9EBDC74E1A28A05900D84754 /* PeerStatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerStatViewController.m; sourceTree = "<group>"; };
+		9EBDC7551A28C85600D84754 /* STAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAlertView.h; sourceTree = "<group>"; };
+		9EBDC7561A28C85600D84754 /* STAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAlertView.m; sourceTree = "<group>"; };
 		A318CEF51A26B40000320E8F /* PeerChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeerChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A318CEF91A26B40000320E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A318CEFA1A26B40000320E8F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -163,6 +166,15 @@
 			path = PeerStat;
 			sourceTree = "<group>";
 		};
+		9EBDC7541A28C85600D84754 /* STAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				9EBDC7551A28C85600D84754 /* STAlertView.h */,
+				9EBDC7561A28C85600D84754 /* STAlertView.m */,
+			);
+			path = STAlertView;
+			sourceTree = "<group>";
+		};
 		A318CEEC1A26B40000320E8F = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +244,7 @@
 		A318CF1E1A26EEB800320E8F /* UIControl */ = {
 			isa = PBXGroup;
 			children = (
+				9EBDC7541A28C85600D84754 /* STAlertView */,
 				A318CF1F1A26EEB800320E8F /* JTGestureBasedTableView */,
 			);
 			path = UIControl;
@@ -538,6 +551,7 @@
 				A318CF011A26B40000320E8F /* ViewController.m in Sources */,
 				A318CF771A27424500320E8F /* UIActionSheet+Blocks.m in Sources */,
 				A318CF5B1A2740A200320E8F /* MPTChatUser.m in Sources */,
+				9EBDC7571A28C85600D84754 /* STAlertView.m in Sources */,
 				A318CF5A1A2740A200320E8F /* MPTChatMessage.m in Sources */,
 				9EBDC74F1A28A05900D84754 /* PeerStatViewController.m in Sources */,
 				A318CF591A2740A200320E8F /* ChatModal.xcdatamodeld in Sources */,
@@ -719,6 +733,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PeerChatTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PeerChat.app/PeerChat";
@@ -734,6 +749,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PeerChatTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PeerChat.app/PeerChat";
