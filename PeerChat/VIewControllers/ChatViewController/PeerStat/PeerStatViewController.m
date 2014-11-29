@@ -27,8 +27,27 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //when load the view controller,we shoule be can do it right now
+
+//    if(self.selfNameArray){
+        self.selfPeerName.text = [self.selfNameArray objectAtIndex:0];
+//    }
+    NSMutableString *array1 = [NSMutableString string];
     
+    if(self.inPeersArray){
+        for (NSString *peerName in _inPeersArray) {
+            [array1 appendString:peerName];
+        }
+        self.inPeerNames.text = array1;
+    }
+    array1 = [NSMutableString string];
     
+    if(self.outPeersArray){
+        for (NSString *peerName in _inPeersArray) {
+            [array1 appendString:peerName];
+        }
+        self.outPeerNames.text = array1;
+    }
 }
 
 - (void)didReceiveMemoryWarning

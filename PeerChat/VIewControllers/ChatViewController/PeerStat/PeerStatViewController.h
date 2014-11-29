@@ -10,8 +10,11 @@
 
 @interface PeerStatViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *inPeersLabel;
+@property (weak, nonatomic) IBOutlet UILabel *selfPeerName;
+@property (weak, nonatomic) IBOutlet UILabel *inPeerNames;
+@property (weak, nonatomic) IBOutlet UILabel *outPeerNames;
 
-@property (nonatomic, strong) NSArray *     inPeers;
-
+@property (nonatomic, strong) NSArray * inPeersArray;
+@property (strong,nonatomic) NSArray * outPeersArray;
+@property (strong,nonatomic) NSArray * selfNameArray;
 @end

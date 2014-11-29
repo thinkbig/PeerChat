@@ -130,7 +130,12 @@
         [[MPTDataController sharedController] deleteAllChatMessagesInManagedObjectContext:nil];
     }], [RIButtonItem itemWithLabel:@"Show Peer Stat" action:^{
         PeerStatViewController * peerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PeerStatVC"];
-        peerVC.inPeers = [[PeerManager sharedInst] getOutPeersByRoom:self.roomName];
+        peerVC.inPeersArray = [[PeerManager sharedInst] getOutPeersByRoom:self.roomName];
+        peerVC.outPeersArray = [[PeerManager sharedInst] getInPeersByRoom:self.roomName];
+        peerVC.selfNameArray = @[[[UserWrapper sharedInst] nameOfMine]];
+
+        NSLog(@"%@,%@,%@",peerVC.inPeersArray,peerVC.outPeersArray,peerVC.selfNameArray);
+        
         [self.navigationController pushViewController:peerVC animated:YES];
     }], nil];
     [sheet showInView:[UIApplication sharedApplication].keyWindow];
@@ -138,8 +143,8 @@
 }
 
 
-#pragma mark - UITextFieldDelegate
 
+#pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     double delayInSeconds = 0.25;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));

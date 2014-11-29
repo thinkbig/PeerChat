@@ -76,8 +76,10 @@ static PeerManager * _sharedInst = nil;
     PeerUnit * unit = self.peerDict[roomName];
     return [unit getOutPeers];
 }
+
 -(NSArray *) getInPeersByRoom:(NSString *)roomName{
     PeerUnit * unit = self.peerDict[roomName];
     return [unit getInPeers];
 }
+
 @end
