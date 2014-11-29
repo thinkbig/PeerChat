@@ -125,7 +125,7 @@
     [self.brSession disconnect];
     [self.browser stopBrowsingForPeers];
 
-    //if (nil == self.brSession || ![self.brPeerID.displayName isEqualToString:self.dispName])
+    if (nil == self.brSession || ![self.brPeerID.displayName isEqualToString:self.dispName])
     {
         self.brSession = [[MCSession alloc] initWithPeer:self.brPeerID];
         self.brSession.delegate = self;
@@ -143,7 +143,7 @@
     [self.adSession disconnect];
     [self.advertiser stopAdvertisingPeer];
     
-    //if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName])
+    if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName])
     {
         self.adSession = [[MCSession alloc] initWithPeer:self.adPeerID];
         self.adSession.delegate = self;
