@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Wayne Hartman. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
 #import "MPTChatViewController.h"
 #import "MPTImageViewController.h"
 #import "MPTChatDataSource.h"
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) IBOutlet MPTChatDataSource *dataSource;
 @property (strong, nonatomic) IBOutlet UITextField *firstResponderField;
 @property (nonatomic, strong) MPTChatBar *chatBar;
+@property (nonatomic, strong) AVAudioPlayer *player;
 
 @end
 
@@ -69,10 +71,23 @@
 
     };
     
-    self.dataSource.attachmentPreviewHandler = ^(NSString *path) {
-        MPTImageViewController * imgVC = [weakSelf.storyboard instantiateViewControllerWithIdentifier:@"ImageVC"];
-        imgVC.image = [UIImage imageWithContentsOfFile:path];
-        [weakSelf.navigationController pushViewController:imgVC animated:YES];
+    //==========voice handler========
+    
+    self.chatBar.voiceHandler = ^(NSString * voicePath) {
+        [[PeerManager sharedInst] sendVoiceForPath:voicePath toGroup:weakSelf.roomName];
+    };
+    
+    self.dataSource.attachmentPreviewHandler = ^(NSString *path, NSString *cellId) {
+        if ([cellId isEqualToString:userAttachmentChatCellID] || [cellId isEqualToString:peerAttachmentChatCellID]) {
+            MPTImageViewController * imgVC = [weakSelf.storyboard instantiateViewControllerWithIdentifier:@"ImageVC"];
+            imgVC.image = [UIImage imageWithContentsOfFile:path];
+            [weakSelf.navigationController pushViewController:imgVC animated:YES];
+        } else if ([cellId isEqualToString:userVoiceChatCellID] || [cellId isEqualToString:peerVoiceChatCellID]) {
+            NSURL * soundUrl = [NSURL fileURLWithPath:path];
+            weakSelf.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
+            weakSelf.player.numberOfLoops = 0;
+            [weakSelf.player play];
+        }
     };
     
     [[PeerManager sharedInst] joinOrCreateRoom:self.roomName withDisplayName:[[UserWrapper sharedInst] nameOfMine]];

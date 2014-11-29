@@ -59,10 +59,16 @@ static PeerManager * _sharedInst = nil;
     [unit sendMessage:message];
 }
 
-- (void) sendImage:(UIImage *)image  toGroup:(NSString*)groupName
+- (void) sendImage:(UIImage *)image toGroup:(NSString*)groupName
 {
     PeerUnit * unit = self.peerDict[groupName];
     [unit sendImage:image];
+}
+
+- (void) sendVoiceForPath:(NSString *)path toGroup:(NSString*)groupName
+{
+    PeerUnit * unit = self.peerDict[groupName];
+    [unit sendFileWithPath:path];
 }
 
 -(NSArray *) getOutPeersByRoom:(NSString*)roomName {

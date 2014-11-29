@@ -10,7 +10,6 @@
 
 @interface MPTChatBar () <UITextFieldDelegate>
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *sendButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *cameraButton;
 
 @end
@@ -61,12 +60,39 @@
     return isValid;
 }
 
+- (void)awakeFromNib
+{
+    if (nil == self.recorder) {
+        self.recorder = [[LCVoice alloc] init];
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)holdRecordBtn:(id)sender {
+    NSString *trimmedAudioFileBaseName = [NSString stringWithFormat:@"recordingConverted%x.caf", arc4random()];
+    NSString *trimmedAudioFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:trimmedAudioFileBaseName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:trimmedAudioFilePath]) {
+        NSError *error;
+        if ([fileManager removeItemAtPath:trimmedAudioFilePath error:&error] == NO) {
+            NSLog(@"removeItemAtPath %@ error:%@", trimmedAudioFilePath, error);
+        }
+    }
+    [self.recorder startRecordWithPath:trimmedAudioFilePath];
 }
 
 - (IBAction)didReleaseRecordBtn:(id)sender {
+    __block MPTChatBar * weakSelf = self;
+    [self.recorder stopRecordWithCompletionBlock:^{
+        if (self.voiceHandler) {
+            self.voiceHandler(weakSelf.recorder.recordPath);
+        }
+    }];
+}
+
+- (IBAction)cancelRecord:(id)sender {
+    [self.recorder cancelled];
 }
 
 - (IBAction)didSelectCameraButton:(id)sender {
