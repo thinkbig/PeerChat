@@ -50,8 +50,8 @@ static PeerManager * _sharedInst = nil;
 
 - (void) leaveRoom:(NSString*)roomName
 {
-    PeerUnit * unit = self.peerDict[roomName];
-    [unit stop];
+    //PeerUnit * unit = self.peerDict[roomName];
+    //[unit stop];
 }
 
 - (void) sendMessage:(NSString*)message toGroup:(NSString*)groupName

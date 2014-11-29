@@ -14,10 +14,10 @@
 
 #define kRECYCLED_PEER_ID               @"kRECYCLED_PEER_ID"
 
-@interface PeerUnit () <MCNearbyServiceAdvertiserDelegate, MCSessionDelegate, MCNearbyServiceBrowserDelegate> {
-    
-    dispatch_semaphore_t        _sem;
-}
+@interface PeerUnit () <MCNearbyServiceAdvertiserDelegate, MCSessionDelegate, MCNearbyServiceBrowserDelegate>
+
+@property (nonatomic, strong) dispatch_semaphore_t        sem;
+@property (nonatomic, strong) NSTimer *                   retryTimer;
 
 @end
 
@@ -101,10 +101,10 @@
 {
     [self advertiseSelf];
     
-    _sem = dispatch_semaphore_create(0);
+    self.sem = dispatch_semaphore_create(0);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC));
-        dispatch_semaphore_wait(_sem, timeout);
+        dispatch_semaphore_wait(self.sem, timeout);
         [self searchingForExisting];
     });
 }
@@ -115,6 +115,9 @@
     [self.browser stopBrowsingForPeers];
     [self.adSession disconnect];
     [self.advertiser stopAdvertisingPeer];
+    self.peerID = nil;
+    self.brPeerID = nil;
+    self.adPeerID = nil;
 }
 
 - (void) searchingForExisting
@@ -122,7 +125,8 @@
     [self.brSession disconnect];
     [self.browser stopBrowsingForPeers];
 
-    if (nil == self.brSession || ![self.brPeerID.displayName isEqualToString:self.dispName]) {
+    //if (nil == self.brSession || ![self.brPeerID.displayName isEqualToString:self.dispName])
+    {
         self.brSession = [[MCSession alloc] initWithPeer:self.brPeerID];
         self.brSession.delegate = self;
         self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.brPeerID serviceType:self.serviceType];
@@ -139,13 +143,15 @@
     [self.adSession disconnect];
     [self.advertiser stopAdvertisingPeer];
     
-    if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName]) {
+    //if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName])
+    {
         self.adSession = [[MCSession alloc] initWithPeer:self.adPeerID];
         self.adSession.delegate = self;
         self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.adPeerID discoveryInfo:nil serviceType:self.serviceType];
         self.advertiser.delegate = self;
-        [self.advertiser startAdvertisingPeer];
     }
+    
+    [self.advertiser startAdvertisingPeer];
     
     [self ingestMessage:@"Waiting to be invited to a session..." attachmentURL:nil thumbnailURL:nil fromPeer:nil];
 }
@@ -407,9 +413,9 @@
     invitationHandler(YES, self.adSession);    // In most cases you might want to give users an option to connect or not.
     //[self.advertiser stopAdvertisingPeer];  //  Once invited, stop advertising
     
-    if (_sem) {
-        dispatch_semaphore_signal(_sem);
-        _sem = nil;
+    if (self.sem) {
+        dispatch_semaphore_signal(self.sem);
+        self.sem = nil;
     }
 }
 
@@ -456,13 +462,17 @@
     switch (state) {
         case MCSessionStateConnected: {
             action = @"is now connected";
-            if (_sem) {
-                dispatch_semaphore_signal(_sem);
-                _sem = nil;
+            [self.retryTimer invalidate];
+            self.retryTimer = nil;
+            if (self.sem) {
+                dispatch_semaphore_signal(self.sem);
+                self.sem = nil;
             }
         }
             break;
         case MCSessionStateConnecting: {
+            [self.retryTimer invalidate];
+            self.retryTimer = nil;
             action = @"is connecting";
         }
             break;
@@ -478,8 +488,7 @@
         if (state == MCSessionStateNotConnected && self.adSession.connectedPeers.count == 0 && self.brSession.connectedPeers.count == 0)
         {
             NSLog(@"retry reconect");
-            [self stop];
-            [self start];
+            //self.retryTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(start) userInfo:nil repeats:NO];
         }
     }
     NSString *message = [NSString stringWithFormat:@"%@ %@...", peerID.displayName, action];
