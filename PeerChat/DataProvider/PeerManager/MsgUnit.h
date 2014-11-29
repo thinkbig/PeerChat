@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) NSString *        filePath;
 @property (nonatomic, strong) NSString *        fileName;
+@property (nonatomic) BOOL                      haveSend;
+@property (nonatomic) BOOL                      haveReceived;
 
 - (id) initWithPath:(NSString*)path;
 

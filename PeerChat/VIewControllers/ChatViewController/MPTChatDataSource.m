@@ -48,14 +48,6 @@
 
 #pragma mark - UITableViewDataSource
 
-static NSString *userChatCellID = @"userChatCell";
-static NSString *peerChatCellID = @"peerChatCell";
-
-static NSString *systemChateCellID = @"systemChatCell";
-
-static NSString *userAttachmentChatCellID = @"userAttachmentChatCell";
-static NSString *peerAttachmentChatCellID = @"peerAttachmentChatCell";
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger count = [self.messagesFRC.sections[section] numberOfObjects];
     return count;
@@ -73,18 +65,27 @@ static NSString *peerAttachmentChatCellID = @"peerAttachmentChatCell";
     return cell;
 }
 
-- (NSString *)cellIdForMessage:(MPTChatMessage *)message {
-    NSString *cellID = nil;
+- (NSString *)cellIdForMessage:(MPTChatMessage *)message
+{
+    NSString *cellID = systemChateCellID;
     if (message.user == nil) {
         cellID = systemChateCellID;
-    } else if ([[message.user isLocalUser] boolValue] && message.attachmentUri) {
-        cellID = userAttachmentChatCellID;
     } else if ([[message.user isLocalUser] boolValue]) {
-        cellID = userChatCellID;
-    } else if (message.attachmentUri) {
-        cellID = peerAttachmentChatCellID;
+        if (message.attachmentThumbnailUri) {
+            cellID = userAttachmentChatCellID;
+        } else if (message.attachmentUri) {
+            cellID = userVoiceChatCellID;
+        } else {
+            cellID = userChatCellID;
+        }
     } else {
-        cellID = peerChatCellID;
+        if (message.attachmentThumbnailUri) {
+            cellID = peerAttachmentChatCellID;
+        } else if (message.attachmentUri) {
+            cellID = peerVoiceChatCellID;
+        } else {
+            cellID = peerChatCellID;
+        }
     }
 
     return cellID;
@@ -150,8 +151,16 @@ static NSString *peerAttachmentChatCellID = @"peerAttachmentChatCell";
 
 - (void)chatCell:(MPTChatCell *)cell didSelectAttachmentForMessage:(MPTChatMessage *)message {
     if (self.attachmentPreviewHandler) {
-        self.attachmentPreviewHandler(message.attachmentUri);
+        self.attachmentPreviewHandler(message.attachmentUri, cell.reuseIdentifier);
     }
+}
+
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    //[self.tabBar resignFirstResponder];
 }
 
 @end

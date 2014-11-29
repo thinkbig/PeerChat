@@ -73,9 +73,16 @@
     self = [super init];
     if ( nil != self ) {
         self.filePath = path;
-        self.fileName = [path lastPathComponent];
+        self.haveReceived = NO;
+        self.haveSend = NO;
     }
     return self;
+}
+
+- (void)setFilePath:(NSString *)filePath
+{
+    _filePath = filePath;
+    _fileName = [filePath lastPathComponent];
 }
 
 - (BOOL)isEqual:(id)object

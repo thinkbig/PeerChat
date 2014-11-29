@@ -83,20 +83,29 @@
 
 - (MCPeerID *)adPeerID {
     return self.peerID;
+//    if (!_adPeerID) {
+//        _adPeerID = [PeerUnit getRecycledPeerIDForName:self.dispName];
+//    }
+//    return _adPeerID;
 }
 
 - (MCPeerID *)brPeerID {
     return self.peerID;
+//    if (!_brPeerID) {
+//        _brPeerID = [PeerUnit getRecycledPeerIDForName:self.dispName];
+//    }
+//    return _brPeerID;
 }
 
 - (void) start
 {
-    [self searchingForExisting];
+    [self advertiseSelf];
     
     _sem = dispatch_semaphore_create(0);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self advertiseSelf];
-        dispatch_semaphore_wait(_sem, 5);
+        dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC));
+        dispatch_semaphore_wait(_sem, timeout);
+        [self searchingForExisting];
     });
 }
 
@@ -113,7 +122,6 @@
     [self.brSession disconnect];
     [self.browser stopBrowsingForPeers];
 
-    //self.brPeerID = [[MCPeerID alloc] initWithDisplayName:self.dispName];
     if (nil == self.brSession || ![self.brPeerID.displayName isEqualToString:self.dispName]) {
         self.brSession = [[MCSession alloc] initWithPeer:self.brPeerID];
         self.brSession.delegate = self;
@@ -128,22 +136,18 @@
 
 - (void) advertiseSelf
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.adSession disconnect];
-        [self.advertiser stopAdvertisingPeer];
-        
-        //self.adPeerID = [[MCPeerID alloc] initWithDisplayName:self.dispName];
-        if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName]) {
-            self.adSession = [[MCSession alloc] initWithPeer:self.adPeerID];
-            self.adSession.delegate = self;
-            self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.adPeerID discoveryInfo:nil serviceType:self.serviceType];
-            self.advertiser.delegate = self;
-            [self.advertiser startAdvertisingPeer];
-        }
-        
-        [self ingestMessage:@"Waiting to be invited to a session..." attachmentURL:nil thumbnailURL:nil fromPeer:nil];
-    });
+    [self.adSession disconnect];
+    [self.advertiser stopAdvertisingPeer];
     
+    if (nil == self.adSession || ![self.brPeerID.displayName isEqualToString:self.dispName]) {
+        self.adSession = [[MCSession alloc] initWithPeer:self.adPeerID];
+        self.adSession.delegate = self;
+        self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.adPeerID discoveryInfo:nil serviceType:self.serviceType];
+        self.advertiser.delegate = self;
+        [self.advertiser startAdvertisingPeer];
+    }
+    
+    [self ingestMessage:@"Waiting to be invited to a session..." attachmentURL:nil thumbnailURL:nil fromPeer:nil];
 }
 
 - (NSURL *)createFileURL:(NSString*)fileName {
@@ -212,19 +216,24 @@
     
     NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:unit];
     
+    NSMutableSet * peerSet = [NSMutableSet set];
+    if (expPeer) {
+        [peerSet addObject:expPeer.displayName];
+    }
     if (self.brSession.connectedPeers.count > 0) {
+        NSMutableArray * sendArr = [NSMutableArray array];
         NSArray * subArr = self.brSession.connectedPeers;
-        if (expPeer) {
-            NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return ![obj isEqual:expPeer];
-            }];
-            subArr = [subArr objectsAtIndexes:sendIdx];
+        for (MCPeerID * peer in subArr) {
+            if (![peerSet containsObject:peer.displayName]) {
+                [peerSet addObject:peer.displayName];
+                [sendArr addObject:peer];
+            }
         }
         
-        if (subArr.count > 0) {
+        if (sendArr.count > 0) {
             NSError *error = nil;
             BOOL queued = [self.brSession sendData:messageData
-                                           toPeers:subArr
+                                           toPeers:sendArr
                                           withMode:MCSessionSendDataReliable
                                              error:&error];
             
@@ -234,18 +243,19 @@
         }
     }
     if (self.adSession.connectedPeers.count > 0) {
+        NSMutableArray * sendArr = [NSMutableArray array];
         NSArray * subArr = self.adSession.connectedPeers;
-        if (expPeer) {
-            NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return ![obj isEqual:expPeer];
-            }];
-            subArr = [subArr objectsAtIndexes:sendIdx];
+        for (MCPeerID * peer in subArr) {
+            if (![peerSet containsObject:peer.displayName]) {
+                [peerSet addObject:peer.displayName];
+                [sendArr addObject:peer];
+            }
         }
         
-        if (subArr.count > 0) {
+        if (sendArr.count > 0) {
             NSError *error = nil;
             BOOL queued = [self.adSession sendData:messageData
-                                           toPeers:subArr
+                                           toPeers:sendArr
                                           withMode:MCSessionSendDataReliable
                                              error:&error];
             
@@ -254,6 +264,7 @@
             }
         }
     }
+    
     return YES;
 }
 
@@ -299,26 +310,49 @@
     });
 }
 
+- (void) sendFileWithPath:(NSString *)path
+{
+    if (path.length > 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self ingestMessage:nil attachmentURL:[NSURL fileURLWithPath:path] thumbnailURL:nil fromPeer:self.peerID];
+            FileUnit * unit = [[FileUnit alloc] initWithPath:path];
+            [self __realSendFile:unit exceptionPeer:nil];
+        });
+    }
+}
+
 - (BOOL) __realSendFile:(FileUnit*)unit exceptionPeer:(MCPeerID*)expPeer
 {
-    if (nil == unit || [self.fileQueue containsObject:unit]) {
+    unit.haveSend = YES;
+    __block BOOL exist = NO;
+    __block BOOL shouldReturn = NO;
+    [self.fileQueue enumerateObjectsUsingBlock:^(FileUnit * obj, NSUInteger idx, BOOL *stop) {
+        if ([unit isEqual:obj]) {
+            if (obj.haveSend) {
+                shouldReturn = YES;
+            }
+            exist = YES;
+            obj.haveSend = YES;
+            *stop = YES;
+        }
+    }];
+    if (shouldReturn) {
         return NO;
+    } else if (!exist) {
+        [self.fileQueue addObject:unit];
     }
-    [self.fileQueue addObject:unit];
     
     NSURL * fileUrl = [NSURL fileURLWithPath:unit.filePath];
     NSString * fileName = unit.fileName;
-    
-    if (self.brSession.connectedPeers.count > 0) {
-        NSArray * subArr = self.brSession.connectedPeers;
-        if (expPeer) {
-            NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return ![obj isEqual:expPeer];
-            }];
-            subArr = [subArr objectsAtIndexes:sendIdx];
-        }
-        
-        for (MCPeerID * peer in subArr) {
+
+    NSMutableSet * peerSet = [NSMutableSet set];
+    if (expPeer) {
+        [peerSet addObject:expPeer.displayName];
+    }
+    NSArray * subArr = self.brSession.connectedPeers;
+    for (MCPeerID * peer in subArr) {
+        if (![peerSet containsObject:peer.displayName]) {
+            [peerSet addObject:peer.displayName];
             [self.brSession sendResourceAtURL:fileUrl
                                      withName:fileName
                                        toPeer:peer
@@ -329,17 +363,11 @@
                         }];
         }
     }
-    if (self.adSession.connectedPeers.count > 0) {
-        NSArray * subArr = self.adSession.connectedPeers;
-        if (expPeer) {
-            NSIndexSet * sendIdx = [subArr indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
-                return ![obj isEqual:expPeer];
-            }];
-            subArr = [subArr objectsAtIndexes:sendIdx];
-        }
-        
-        for (MCPeerID * peer in subArr) {
-            [self.adSession sendResourceAtURL:fileUrl
+    subArr = self.adSession.connectedPeers;
+    for (MCPeerID * peer in subArr) {
+        if (![peerSet containsObject:peer.displayName]) {
+            [peerSet addObject:peer.displayName];
+            [self.brSession sendResourceAtURL:fileUrl
                                      withName:fileName
                                        toPeer:peer
                         withCompletionHandler:^(NSError *error) {
@@ -352,11 +380,24 @@
     return YES;
 }
 
+- (BOOL) isExistingPeer:(MCPeerID*)peerID
+{
+    return [peerID.displayName isEqualToString:self.dispName] || [self.brSession.connectedPeers containsObject:peerID] || [self.adSession.connectedPeers containsObject:peerID];
+    
+//    return [peerID.displayName isEqualToString:self.dispName] ||
+//    [self.brSession.connectedPeers indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
+//        return [peerID.displayName isEqualToString:obj.displayName];
+//    }].count > 0 ||
+//    [self.adSession.connectedPeers indexesOfObjectsPassingTest:^BOOL(MCPeerID * obj, NSUInteger idx, BOOL *stop) {
+//        return [peerID.displayName isEqualToString:obj.displayName];
+//    }] > 0;
+}
+
 #pragma mark - MCNearbyServiceAdvertiserDelegate
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void(^)(BOOL accept, MCSession *session))invitationHandler
 {
-    if ([peerID isEqual:self.brPeerID] || [self.brSession.connectedPeers containsObject:peerID] || [self.adSession.connectedPeers containsObject:peerID]) {
+    if ([self isExistingPeer:peerID]) {
         return;
     }
     
@@ -365,6 +406,11 @@
     
     invitationHandler(YES, self.adSession);    // In most cases you might want to give users an option to connect or not.
     //[self.advertiser stopAdvertisingPeer];  //  Once invited, stop advertising
+    
+    if (_sem) {
+        dispatch_semaphore_signal(_sem);
+        _sem = nil;
+    }
 }
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error {
@@ -376,20 +422,20 @@
 
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
 {
-    if ([peerID isEqual:self.adPeerID] || [self.adSession.connectedPeers containsObject:peerID] || [self.brSession.connectedPeers containsObject:peerID]) {
+    if ([self isExistingPeer:peerID]) {
         return;
     }
     
     NSString *message = [NSString stringWithFormat:@"Sending an invitation to %@ to join the chat...", peerID.displayName];
     [self ingestMessage:message attachmentURL:nil thumbnailURL:nil fromPeer:nil];
     
-    [browser invitePeer:peerID toSession:self.brSession withContext:nil timeout:5.0];
+    [browser invitePeer:peerID toSession:self.brSession withContext:nil timeout:10.0];
 }
 
 // A nearby peer has stopped advertising
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
 {
-    if ([peerID isEqual:self.adPeerID] || [self.adSession.connectedPeers containsObject:peerID] || [self.brSession.connectedPeers containsObject:peerID]) {
+    if ([self isExistingPeer:peerID]) {
         return;
     }
     NSString *message = [NSString stringWithFormat:@"%@ was disconnected...", peerID.displayName];
@@ -405,7 +451,7 @@
 
 // Remote peer changed state
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
-    NSLog(@"Peer did change state: %li", state);
+    NSLog(@"Peer did change state: %i", state);
     NSString *action = nil;
     switch (state) {
         case MCSessionStateConnected: {
@@ -426,7 +472,7 @@
             break;
     }
     
-    if ([self.adSession.connectedPeers containsObject:peerID] || [self.brSession.connectedPeers containsObject:peerID]) {
+    if ([self isExistingPeer:peerID]) {
         //[session disconnect];
     } else {
         if (state == MCSessionStateNotConnected)
@@ -474,34 +520,61 @@
     if (error) {
         NSLog(@"Error when receiving file! %@", error);
     } else {
-        dispatch_async(dispatch_queue_create("com.tradeshift.imagereception", NULL), ^{
-            NSData *imageData = nil;
-            NSData *thumbnailData = nil;
-            
-            @autoreleasepool {
-                UIImage *image = [UIImage imageWithContentsOfFile:localURL.path];
-                UIImage *thumbnail = [image thumbnailImage:150
-                                         transparentBorder:0
-                                              cornerRadius:0
-                                      interpolationQuality:kCGInterpolationMedium];
-                imageData = UIImageJPEGRepresentation(image, 1.0f);
-                thumbnailData = UIImageJPEGRepresentation(thumbnail, 1.0f);
+        FileUnit * unit = [[FileUnit alloc] initWithPath:localURL.path];
+        unit.fileName = resourceName;
+        unit.haveReceived = YES;
+        __block BOOL exist = NO;
+        __block BOOL shouldReturn = NO;
+        [self.fileQueue enumerateObjectsUsingBlock:^(FileUnit * obj, NSUInteger idx, BOOL *stop) {
+            if ([unit isEqual:obj]) {
+                if ((obj.haveReceived || obj.haveSend)) {
+                    shouldReturn = YES;
+                }
+                exist = YES;
+                obj.haveReceived = YES;
+                *stop = YES;
             }
-            
-            NSURL *imageURL = [self createFileURL:resourceName];
-            NSURL *thumbnailURL = [self createFileURL:nil];
-            
-            NSFileManager *fm = [NSFileManager defaultManager];
-            [fm createFileAtPath:imageURL.path contents:imageData attributes:nil];
-            [fm createFileAtPath:thumbnailURL.path contents:thumbnailData attributes:nil];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self ingestMessage:nil attachmentURL:imageURL thumbnailURL:thumbnailURL fromPeer:peerID];
-                FileUnit * unit = [[FileUnit alloc] initWithPath:imageURL.path];
-                unit.fileName = resourceName;
-                [self __realSendFile:unit exceptionPeer:peerID];
+        }];
+        if (shouldReturn) {
+            return ;
+        } else if (!exist) {
+            [self.fileQueue addObject:unit];
+        }
+        
+        NSString * extention = [resourceName pathExtension];
+        if ([extention isEqualToString:@"caf"]) {
+            [self ingestMessage:nil attachmentURL:localURL thumbnailURL:nil fromPeer:peerID];
+            [self __realSendFile:unit exceptionPeer:peerID];
+        } else {
+            dispatch_async(dispatch_queue_create("com.tradeshift.imagereception", NULL), ^{
+                NSData *imageData = nil;
+                NSData *thumbnailData = nil;
+                
+                @autoreleasepool {
+                    UIImage *image = [UIImage imageWithContentsOfFile:localURL.path];
+                    UIImage *thumbnail = [image thumbnailImage:150
+                                             transparentBorder:0
+                                                  cornerRadius:0
+                                          interpolationQuality:kCGInterpolationMedium];
+                    imageData = UIImageJPEGRepresentation(image, 1.0f);
+                    thumbnailData = UIImageJPEGRepresentation(thumbnail, 1.0f);
+                }
+                
+                NSURL *imageURL = [self createFileURL:resourceName];
+                NSURL *thumbnailURL = [self createFileURL:nil];
+                
+                NSFileManager *fm = [NSFileManager defaultManager];
+                [fm createFileAtPath:imageURL.path contents:imageData attributes:nil];
+                [fm createFileAtPath:thumbnailURL.path contents:thumbnailData attributes:nil];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self ingestMessage:nil attachmentURL:imageURL thumbnailURL:thumbnailURL fromPeer:peerID];
+                    unit.filePath = imageURL.path;
+                    unit.fileName = resourceName;
+                    [self __realSendFile:unit exceptionPeer:peerID];
+                });
             });
-        });
+        }
     }
 }
 
@@ -523,7 +596,5 @@
     }
     return peerNames;
 }
-- (NSArray *) getSelfPeerName{
-    return [NSArray arrayWithObjects: self.dispName,nil];
-}
+
 @end

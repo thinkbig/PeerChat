@@ -7,14 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LCVoice.h"
 
 typedef void(^ChatHandler)(NSString *message);
 typedef void(^CameraHandler)(void);
+typedef void(^VoiceHandler)(NSString *voicePath);
 
-@interface MPTChatBar : UIToolbar
+@interface MPTChatBar : UIToolbar 
 
-@property (nonatomic, copy) ChatHandler chatHandler;
-@property (nonatomic, copy) CameraHandler cameraHandler;
+@property (nonatomic, copy) ChatHandler                         chatHandler;
+@property (nonatomic, copy) CameraHandler                       cameraHandler;
+@property (nonatomic, copy) VoiceHandler                        voiceHandler;
+
+@property (nonatomic, strong) LCVoice *                         recorder;
+
 @property (weak, nonatomic) IBOutlet UITextField *inputField;
 
 + (instancetype)chatBarWithNibName:(NSString *)nibName;

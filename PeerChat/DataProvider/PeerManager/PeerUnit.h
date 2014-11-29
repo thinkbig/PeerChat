@@ -38,9 +38,10 @@
 - (void) start;
 - (void) sendMessage:(NSString*)message;
 - (void) sendImage:(UIImage *)image;
+- (void) sendFileWithPath:(NSString *)path;
 - (void) stop;
 
 - (NSArray *) getOutPeers;
 - (NSArray *) getInPeers;
-- (NSArray *) getSelfPeerName;
+
 @end

@@ -27,7 +27,6 @@
 
     if (message.attachmentUri && message.attachmentThumbnailUri) {
         UIImage *thumbnail = [UIImage imageWithData:[NSData dataWithContentsOfFile:message.attachmentThumbnailUri] scale:2.0f];
-
         [self.attachmentPreviewButton setBackgroundImage:thumbnail forState:UIControlStateNormal];
     }
 }

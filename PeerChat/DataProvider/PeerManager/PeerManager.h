@@ -19,8 +19,9 @@
 
 - (void) sendMessage:(NSString*)message toGroup:(NSString*)groupName;
 - (void) sendImage:(UIImage *)image  toGroup:(NSString*)groupName;
+- (void) sendVoiceForPath:(NSString *)path toGroup:(NSString*)groupName;
 
 - (NSArray *) getOutPeersByRoom:(NSString*)roomName;
 - (NSArray *) getInPeersByRoom:(NSString *)roomName;
-- (NSArray *) getSelfPeerName:(NSString *)roomName;
+
 @end

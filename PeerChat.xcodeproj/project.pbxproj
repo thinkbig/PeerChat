@@ -46,6 +46,15 @@
 		A318CF8A1A276FE600320E8F /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A318CF891A276FE600320E8F /* MyProfileViewController.m */; };
 		A3C9FAAB1A28349E00A4A7C0 /* MsgUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C9FAAA1A28349E00A4A7C0 /* MsgUnit.m */; };
 		A3C9FAB01A284B7800A4A7C0 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C9FAAF1A284B7800A4A7C0 /* NSString+MD5.m */; };
+		A3C9FAB51A28B25F00A4A7C0 /* FDSoundActivatedRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C9FAB41A28B25F00A4A7C0 /* FDSoundActivatedRecorder.m */; };
+		A3C9FAB71A28BC6D00A4A7C0 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C9FAB61A28BC6D00A4A7C0 /* AVFoundation.framework */; };
+		A3C9FAC21A28D54E00A4A7C0 /* LCVoice.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C9FABA1A28D54E00A4A7C0 /* LCVoice.m */; };
+		A3C9FAC31A28D54E00A4A7C0 /* LCVoiceHud.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C9FABC1A28D54E00A4A7C0 /* LCVoiceHud.m */; };
+		A3C9FAC41A28D54E00A4A7C0 /* black_bg_ip5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3C9FABE1A28D54E00A4A7C0 /* black_bg_ip5@2x.png */; };
+		A3C9FAC51A28D54E00A4A7C0 /* mic_normal_358x358@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3C9FABF1A28D54E00A4A7C0 /* mic_normal_358x358@2x.png */; };
+		A3C9FAC61A28D54E00A4A7C0 /* mic_talk_358x358@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3C9FAC01A28D54E00A4A7C0 /* mic_talk_358x358@2x.png */; };
+		A3C9FAC71A28D54E00A4A7C0 /* wave70x117@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3C9FAC11A28D54E00A4A7C0 /* wave70x117@2x.png */; };
+		A3C9FAC91A28F85500A4A7C0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C9FAC81A28F85500A4A7C0 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +142,18 @@
 		A3C9FAAA1A28349E00A4A7C0 /* MsgUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MsgUnit.m; sourceTree = "<group>"; };
 		A3C9FAAE1A284B7800A4A7C0 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		A3C9FAAF1A284B7800A4A7C0 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
+		A3C9FAB31A28B25F00A4A7C0 /* FDSoundActivatedRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDSoundActivatedRecorder.h; sourceTree = "<group>"; };
+		A3C9FAB41A28B25F00A4A7C0 /* FDSoundActivatedRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDSoundActivatedRecorder.m; sourceTree = "<group>"; };
+		A3C9FAB61A28BC6D00A4A7C0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A3C9FAB91A28D54E00A4A7C0 /* LCVoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCVoice.h; sourceTree = "<group>"; };
+		A3C9FABA1A28D54E00A4A7C0 /* LCVoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCVoice.m; sourceTree = "<group>"; };
+		A3C9FABB1A28D54E00A4A7C0 /* LCVoiceHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCVoiceHud.h; sourceTree = "<group>"; };
+		A3C9FABC1A28D54E00A4A7C0 /* LCVoiceHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCVoiceHud.m; sourceTree = "<group>"; };
+		A3C9FABE1A28D54E00A4A7C0 /* black_bg_ip5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black_bg_ip5@2x.png"; sourceTree = "<group>"; };
+		A3C9FABF1A28D54E00A4A7C0 /* mic_normal_358x358@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mic_normal_358x358@2x.png"; sourceTree = "<group>"; };
+		A3C9FAC01A28D54E00A4A7C0 /* mic_talk_358x358@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mic_talk_358x358@2x.png"; sourceTree = "<group>"; };
+		A3C9FAC11A28D54E00A4A7C0 /* wave70x117@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wave70x117@2x.png"; sourceTree = "<group>"; };
+		A3C9FAC81A28F85500A4A7C0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +161,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3C9FAC91A28F85500A4A7C0 /* AudioToolbox.framework in Frameworks */,
+				A3C9FAB71A28BC6D00A4A7C0 /* AVFoundation.framework in Frameworks */,
 				A318CF821A27429900320E8F /* Foundation.framework in Frameworks */,
 				A318CF801A27428D00320E8F /* UIKit.framework in Frameworks */,
 				A318CF7E1A27427F00320E8F /* CoreGraphics.framework in Frameworks */,
@@ -266,6 +289,8 @@
 		A318CF2F1A27057C00320E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A3C9FAC81A28F85500A4A7C0 /* AudioToolbox.framework */,
+				A3C9FAB61A28BC6D00A4A7C0 /* AVFoundation.framework */,
 				A318CF811A27429900320E8F /* Foundation.framework */,
 				A318CF7F1A27428D00320E8F /* UIKit.framework */,
 				A318CF7D1A27427F00320E8F /* CoreGraphics.framework */,
@@ -368,6 +393,8 @@
 		A318CF621A27424500320E8F /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				A3C9FAB81A28D54E00A4A7C0 /* LCVoice */,
+				A3C9FAB21A28B25F00A4A7C0 /* FDRecorder */,
 				A318CF631A27424500320E8F /* UIAlertView+Blocks */,
 				A318CF6B1A27424500320E8F /* UIImage Categories */,
 				A318CF721A27424500320E8F /* UIStoryboardSegue+TargetDestination */,
@@ -444,6 +471,38 @@
 				A3C9FAAF1A284B7800A4A7C0 /* NSString+MD5.m */,
 			);
 			path = NSString;
+			sourceTree = "<group>";
+		};
+		A3C9FAB21A28B25F00A4A7C0 /* FDRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				A3C9FAB31A28B25F00A4A7C0 /* FDSoundActivatedRecorder.h */,
+				A3C9FAB41A28B25F00A4A7C0 /* FDSoundActivatedRecorder.m */,
+			);
+			path = FDRecorder;
+			sourceTree = "<group>";
+		};
+		A3C9FAB81A28D54E00A4A7C0 /* LCVoice */ = {
+			isa = PBXGroup;
+			children = (
+				A3C9FAB91A28D54E00A4A7C0 /* LCVoice.h */,
+				A3C9FABA1A28D54E00A4A7C0 /* LCVoice.m */,
+				A3C9FABB1A28D54E00A4A7C0 /* LCVoiceHud.h */,
+				A3C9FABC1A28D54E00A4A7C0 /* LCVoiceHud.m */,
+				A3C9FABD1A28D54E00A4A7C0 /* Resource */,
+			);
+			path = LCVoice;
+			sourceTree = "<group>";
+		};
+		A3C9FABD1A28D54E00A4A7C0 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				A3C9FABE1A28D54E00A4A7C0 /* black_bg_ip5@2x.png */,
+				A3C9FABF1A28D54E00A4A7C0 /* mic_normal_358x358@2x.png */,
+				A3C9FAC01A28D54E00A4A7C0 /* mic_talk_358x358@2x.png */,
+				A3C9FAC11A28D54E00A4A7C0 /* wave70x117@2x.png */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -527,8 +586,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A318CF041A26B40000320E8F /* Main.storyboard in Resources */,
+				A3C9FAC71A28D54E00A4A7C0 /* wave70x117@2x.png in Resources */,
+				A3C9FAC61A28D54E00A4A7C0 /* mic_talk_358x358@2x.png in Resources */,
 				A318CF5E1A2740A200320E8F /* MPTChatBar.xib in Resources */,
 				A318CF091A26B40000320E8F /* LaunchScreen.xib in Resources */,
+				A3C9FAC41A28D54E00A4A7C0 /* black_bg_ip5@2x.png in Resources */,
+				A3C9FAC51A28D54E00A4A7C0 /* mic_normal_358x358@2x.png in Resources */,
 				A318CF061A26B40000320E8F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -553,6 +616,7 @@
 				A318CF5B1A2740A200320E8F /* MPTChatUser.m in Sources */,
 				9EBDC7571A28C85600D84754 /* STAlertView.m in Sources */,
 				A318CF5A1A2740A200320E8F /* MPTChatMessage.m in Sources */,
+				A3C9FAB51A28B25F00A4A7C0 /* FDSoundActivatedRecorder.m in Sources */,
 				9EBDC74F1A28A05900D84754 /* PeerStatViewController.m in Sources */,
 				A318CF591A2740A200320E8F /* ChatModal.xcdatamodeld in Sources */,
 				A318CF601A2740A200320E8F /* MPTChatDataSource.m in Sources */,
@@ -560,6 +624,7 @@
 				A318CF611A2740A200320E8F /* MPTChatViewController.m in Sources */,
 				A318CF5D1A2740A200320E8F /* MPTChatBar.m in Sources */,
 				A318CEFE1A26B40000320E8F /* AppDelegate.m in Sources */,
+				A3C9FAC31A28D54E00A4A7C0 /* LCVoiceHud.m in Sources */,
 				A318CF271A26EEB800320E8F /* JTTransformableTableViewCell.m in Sources */,
 				A318CF7B1A27424500320E8F /* UIImage+RoundedCorner.m in Sources */,
 				A318CEFB1A26B40000320E8F /* main.m in Sources */,
@@ -567,6 +632,7 @@
 				A318CF5F1A2740A200320E8F /* MPTChatCell.m in Sources */,
 				A318CF3F1A27179B00320E8F /* UserWrapper.m in Sources */,
 				A318CF5C1A2740A200320E8F /* MPTDataController.m in Sources */,
+				A3C9FAC21A28D54E00A4A7C0 /* LCVoice.m in Sources */,
 				A318CF8A1A276FE600320E8F /* MyProfileViewController.m in Sources */,
 				A318CF7A1A27424500320E8F /* UIImage+Resize.m in Sources */,
 				A3C9FAB01A284B7800A4A7C0 /* NSString+MD5.m in Sources */,

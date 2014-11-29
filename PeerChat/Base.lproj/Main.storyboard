@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="a1t-ah-tQn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="a1t-ah-tQn">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -55,7 +57,7 @@
             </objects>
             <point key="canvasLocation" x="616" y="-278"/>
         </scene>
-        <!--Peer Stat View Controller - Peer Stat-->
+        <!--Peer Stat-->
         <scene sceneID="pxj-Xn-Roh">
             <objects>
                 <viewController storyboardIdentifier="PeerStatVC" id="hTn-8b-S6A" customClass="PeerStatViewController" sceneMemberID="viewController">
@@ -123,7 +125,7 @@
             </objects>
             <point key="canvasLocation" x="1147" y="-278"/>
         </scene>
-        <!--View Controller - Rooms-->
+        <!--Rooms-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
@@ -188,7 +190,7 @@
             </objects>
             <point key="canvasLocation" x="138" y="374"/>
         </scene>
-        <!--Chat View Controller - Chat Session-->
+        <!--Chat Session-->
         <scene sceneID="km4-il-P7e">
             <objects>
                 <tableViewController storyboardIdentifier="ChatVC" id="gWK-zm-7LY" customClass="MPTChatViewController" sceneMemberID="viewController">
@@ -318,8 +320,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8dg-6W-mTQ">
-                                            <rect key="frame" x="5" y="0.5" width="52" height="52"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8dg-6W-mTQ">
+                                            <rect key="frame" x="5" y="4" width="52" height="52"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRi-kD-tR1">
                                                     <rect key="frame" x="1" y="1" width="50" height="50"/>
@@ -338,8 +340,8 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.94117647059999998" green="0.61917584079999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="52" id="gha-iJ-I0t"/>
-                                                <constraint firstAttribute="height" constant="52" id="nuU-Uf-A7Z"/>
+                                                <constraint firstAttribute="height" constant="52" id="6Vo-ZN-3lL"/>
+                                                <constraint firstAttribute="width" constant="52" id="jh9-2G-6ZY"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -355,11 +357,11 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="8dg-6W-mTQ" firstAttribute="leading" secondItem="F1M-dk-8NM" secondAttribute="leading" constant="5" id="0MY-ON-iap"/>
                                         <constraint firstAttribute="bottom" secondItem="ROe-wC-GJZ" secondAttribute="bottom" id="2VG-FD-We1"/>
-                                        <constraint firstItem="ROe-wC-GJZ" firstAttribute="leading" secondItem="8dg-6W-mTQ" secondAttribute="trailing" constant="18" id="DcW-WS-U0x"/>
-                                        <constraint firstItem="8dg-6W-mTQ" firstAttribute="top" secondItem="F1M-dk-8NM" secondAttribute="top" constant="4" id="NcT-UT-Y64"/>
+                                        <constraint firstItem="8dg-6W-mTQ" firstAttribute="leading" secondItem="F1M-dk-8NM" secondAttribute="leadingMargin" constant="-3" id="GNz-Mm-S3E"/>
                                         <constraint firstAttribute="trailing" secondItem="ROe-wC-GJZ" secondAttribute="trailing" constant="5" id="PN6-Zq-xgy"/>
+                                        <constraint firstItem="8dg-6W-mTQ" firstAttribute="centerY" secondItem="ROe-wC-GJZ" secondAttribute="centerY" id="QAn-wq-q9T"/>
+                                        <constraint firstItem="ROe-wC-GJZ" firstAttribute="leading" secondItem="8dg-6W-mTQ" secondAttribute="trailing" constant="18" id="g53-RC-gei"/>
                                         <constraint firstItem="ROe-wC-GJZ" firstAttribute="top" secondItem="F1M-dk-8NM" secondAttribute="top" id="rO2-7Q-8Xj"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -467,8 +469,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKE-J0-hNz">
-                                            <rect key="frame" x="263" y="1" width="52" height="52"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fKE-J0-hNz">
+                                            <rect key="frame" x="263" y="4" width="52" height="52"/>
                                             <subviews>
                                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iNJ-4D-g31">
                                                     <rect key="frame" x="1" y="1" width="50" height="50"/>
@@ -487,8 +489,8 @@
                                             </subviews>
                                             <color key="backgroundColor" red="7.4955896300000002e-05" green="0.56985101800000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="75" id="dU4-6w-HhN"/>
-                                                <constraint firstAttribute="height" constant="75" id="gyk-la-lge"/>
+                                                <constraint firstAttribute="width" constant="52" id="dU4-6w-HhN"/>
+                                                <constraint firstAttribute="height" constant="52" id="gyk-la-lge"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -498,7 +500,7 @@
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="fKE-J0-hNz" firstAttribute="top" secondItem="0S7-9n-vCM" secondAttribute="top" constant="7" id="tCG-d9-c1F"/>
+                                        <constraint firstItem="fKE-J0-hNz" firstAttribute="top" secondItem="0S7-9n-vCM" secondAttribute="top" constant="4" id="tCG-d9-c1F"/>
                                         <constraint firstAttribute="trailing" secondItem="fKE-J0-hNz" secondAttribute="trailing" constant="5" id="wwa-Co-LvP"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -572,7 +574,7 @@
             </objects>
             <point key="canvasLocation" x="616" y="374"/>
         </scene>
-        <!--Image View Controller - Image-->
+        <!--Image-->
         <scene sceneID="9Ut-29-CaU">
             <objects>
                 <viewController storyboardIdentifier="ImageVC" id="mwn-bG-dHY" customClass="MPTImageViewController" sceneMemberID="viewController">
